@@ -1,0 +1,9 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+    console.log('hoge');
+</script>
+</body>
+</html>

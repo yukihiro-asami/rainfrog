@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true" stopOnFailure="false" bootstrap="phpunit.php">
+	<php>
+	</php>
+	<testsuites>
+		<testsuite name="core">
+			<directory suffix=".php">../core/tests</directory>
+		</testsuite>
+		<testsuite name="app">
+			<directory suffix=".php">../app/tests</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
