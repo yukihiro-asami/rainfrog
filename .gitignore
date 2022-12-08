@@ -1,3 +1,4 @@
 /.idea/*
 /frog/phpunit-9.5.phar
 /frog/loader/syslog/
+/frog/app/config/

@@ -2,7 +2,7 @@
   {
     "type": "pdo",
     "dsn": "mysql:host=localhost;dbname=TRADESYSTEM;charset=utf8mb4",
-    "username": "castle",
+    "username": "rainfrog",
     "password": "password"
   }
 ]
