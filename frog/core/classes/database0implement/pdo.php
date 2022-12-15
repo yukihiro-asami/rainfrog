@@ -127,7 +127,7 @@ class Database0implement_PDO extends Database0implement
             implode(', ',
                 array_map(
                     fn($column_name) => "`$column_name` = VALUES(`$column_name`)",
-                    array_diff(array_keys($column_and_values), $unique_keys)
+                    array_keys($column_and_values)
                 )
             );
     }
