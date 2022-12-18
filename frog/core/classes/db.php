@@ -6,13 +6,13 @@ class DB extends Castle
 {
     protected Database0implement $_db;
 
-    function __construct(int $database_index = CSL_DB_INSTANCE_PRIMARY)
+    function __construct(int $database_index = FRG_DB_INSTANCE_PRIMARY)
     {
         global $__dbs;
         $this->_db = $__dbs[$database_index];
     }
 
-    static function query($sql, int $database_index = CSL_DB_INSTANCE_PRIMARY): DB
+    static function query($sql, int $database_index = FRG_DB_INSTANCE_PRIMARY): DB
     {
         $instance = new static($database_index);
         $instance->_set_query($sql);
@@ -55,17 +55,17 @@ class DB extends Castle
         return $this->_db->quote($string);
     }
 
-    static function start_transaction(int $database_index = CSL_DB_INSTANCE_PRIMARY): bool
+    static function start_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->start_transaction();
     }
 
-    static function commit_transaction(int $database_index = CSL_DB_INSTANCE_PRIMARY): bool
+    static function commit_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->commit_transaction();
     }
 
-    static function rollback_transaction(int $database_index = CSL_DB_INSTANCE_PRIMARY): bool
+    static function rollback_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->rollback_transaction();
     }

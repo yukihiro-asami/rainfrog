@@ -24,12 +24,12 @@ store_syslog
 EOF;
 
 /** @noinspection DuplicatedCode */
-$__mode = CSL_MODE_WEB;
+$__mode = FRG_MODE_WEB;
 $__results = [];
 $__vals = [];
 $__body = '';
 $__protocol = 'HTTP/1.1';
-$__status = CSL_HTTP_STATUS_CODE_200_OK;
+$__status = FRG_HTTP_STATUS_CODE_200_OK;
 $__headers = [];
 $__cookies = [];
 $__dbs = [];

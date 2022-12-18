@@ -49,7 +49,7 @@ class Credential0implement extends Castle
         $this->_session_ip_mask = static::_credential()['session_ip_mask'];
         $this->_is_cookie_encrypted = static::_cookie_setting()['encrypt'];
         $this->_received_session_token = $this->get_cookie($this->_session_cookie_name);
-        $this->_database0implement = database_implement(CSL_DB_INSTANCE_PRIMARY);
+        $this->_database0implement = database_implement(FRG_DB_INSTANCE_PRIMARY);
         $this->_remember_me_enabled = static::_credential()['remember_me_enabled'];
         $this->_remember_me_table_name = static::_credential()['remember_me_table_name'];
         $this->_remember_me_cookie_name = static::_credential()['remember_me_cookie_name'];
@@ -262,7 +262,7 @@ class Credential0implement extends Castle
 
     function delete_session_data() : bool
     {
-        database_implement(CSL_DB_INSTANCE_PRIMARY)
+        database_implement(FRG_DB_INSTANCE_PRIMARY)
             ->delete($this->_session_table_name, 'rotated_at', time() - $this->_session_cookie_expiration_time, '<');
         return true;
     }
@@ -299,13 +299,13 @@ class Credential0implement extends Castle
 
     function _find_user_by_name(string $name) : array
     {
-        return database_implement(CSL_DB_INSTANCE_PRIMARY)
+        return database_implement(FRG_DB_INSTANCE_PRIMARY)
             ->find_one_by($this->_user_table_name, 'name', $name);
     }
 
     function _find_session_by_token(string $session_token) : array
     {
-        return database_implement(CSL_DB_INSTANCE_PRIMARY)
+        return database_implement(FRG_DB_INSTANCE_PRIMARY)
             ->find_one_by($this->_session_table_name, 'token', $session_token);
     }
 
@@ -327,7 +327,7 @@ class Credential0implement extends Castle
 
     function _find_remember_me_by_token(string $remember_me_token) : array
     {
-        return database_implement(CSL_DB_INSTANCE_PRIMARY)
+        return database_implement(FRG_DB_INSTANCE_PRIMARY)
             ->find_one_by($this->_remember_me_table_name, 'token', $remember_me_token);
     }
 

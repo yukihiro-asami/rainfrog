@@ -2,7 +2,7 @@
 namespace castle;
 return function (array &$vals) : string
 {
-    if ($vals['castle_environment_value'] === CSL_ENV_DEVELOPMENT OR $vals['castle_environment_value'] === CSL_ENV_TEST)
+    if ($vals['castle_environment_value'] === FRG_ENV_DEVELOPMENT OR $vals['castle_environment_value'] === FRG_ENV_TEST)
     {
         store_body(<<<EOF
 <html lang="ja"><head>
@@ -139,7 +139,7 @@ function _select_by_name_and_get_value(name)
 </script>
 EOF);
     } else {
-        set_status(CSL_HTTP_STATUS_CODE_404_NOT_FOUND);
+        set_status(FRG_HTTP_STATUS_CODE_404_NOT_FOUND);
         store_body('<html lang="ja"><head><title>not found</title></head><body>not found</body></html>');
     }
     return 'success';

@@ -5,7 +5,7 @@ class Table extends Castle
     protected static ?string $_table_name = NULL;
     protected static string $_primary_key = 'id';
     protected static array $_unique_keys;
-    protected static int $_database_index = CSL_DB_INSTANCE_PRIMARY;
+    protected static int $_database_index = FRG_DB_INSTANCE_PRIMARY;
 
     public static function store($column_and_values) : bool
     {
