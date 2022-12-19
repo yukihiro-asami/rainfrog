@@ -13,6 +13,7 @@ return function (array &$vals) : string
     {
         if (isset($vals['dbs'][$db_instance_id]) === false)
         {
+            set_database(NULL);
             continue;
         }
         $setting = $vals['dbs'][$db_instance_id];

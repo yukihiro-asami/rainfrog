@@ -43,10 +43,17 @@ EOF;
 
     function test_secondary()
     {
+        $database_implement_id = FRG_DB_INSTANCE_SECONDARY;
+        $database0implement = \castle\database_implement($database_implement_id);
+        if (isset($database0implement) === false)
+        {
+            echo 'no second db instance';
+            return;
+        }
+
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
-        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_SECONDARY);
         $database0implement->query($sql)->execute();
 
         $sql = <<<EOF
@@ -83,12 +90,17 @@ EOF;
 
     function test_third()
     {
+        $database_implement_id = FRG_DB_INSTANCE_TERTIARY;
+        $database0implement = \castle\database_implement($database_implement_id);
+        if (isset($database0implement) === false)
+        {
+            echo 'no 3ed db instance';
+            return;
+        }
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
-        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_TERTIARY);
         $database0implement->query($sql)->execute();
-
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -122,10 +134,16 @@ EOF;
 
     function test_quaternary()
     {
+        $database_implement_id = FRG_DB_INSTANCE_QUATERNARY;
+        $database0implement = \castle\database_implement($database_implement_id);
+        if (isset($database0implement) === false)
+        {
+            echo 'no 3ed db instance';
+            return;
+        }
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
-        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_QUATERNARY);
         $database0implement->query($sql)->execute();
 
         $sql = <<<EOF
@@ -157,5 +175,10 @@ EOF;
 DROP TABLE IF EXISTS `test0field`;
 EOF;
         $database0implement->query($sql)->execute();
+    }
+
+    function test_bind()
+    {
+
     }
 }
