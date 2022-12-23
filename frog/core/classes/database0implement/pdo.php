@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpUnused SqlDialectInspection*/
 namespace castle;
 use Exception;
 use PDO;
@@ -167,6 +167,7 @@ class Database0implement_PDO extends Database0implement
             );
     }
 
+    /**  */
     public function find_by(string $table_name, string $column, string|int $value, string $operator = '=', ?int $limit = NULL, int $offset = 0) : array
     {
         $sql = "SELECT * FROM `$table_name` WHERE `$column` $operator :value"
@@ -203,7 +204,7 @@ EOF;
 
     public function _delete_sql(string $table_name, string $column, int|string $value, string $operator = '=') : string
     {
-        $value_string = is_string($value) ? "'{$value}'" : $value;
-        return "DELETE FROM `{$table_name}` WHERE `{$column}` {$operator} " . $value_string;
+        $value_string = is_string($value) ? "'$value'" : $value;
+        return "DELETE FROM `$table_name` WHERE `$column` $operator " . $value_string;
     }
 }

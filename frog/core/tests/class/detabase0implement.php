@@ -1,4 +1,9 @@
-<?php /** @noinspection SqlNoDataSourceInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection DuplicatedCode */
+
+/** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
+
+use function castle\database_implement;
 
 class Test_Class_Database0implement extends TestCase
 {
@@ -7,7 +12,7 @@ class Test_Class_Database0implement extends TestCase
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
-        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+        $database0implement = database_implement(FRG_DB_INSTANCE_PRIMARY);
         $database0implement->query($sql)->execute();
 
         $sql = <<<EOF
@@ -35,6 +40,7 @@ EOF;
         $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => "\n\""];
         $this->assertEquals($expect, $actual);
 
+
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
@@ -44,7 +50,7 @@ EOF;
     function test_secondary()
     {
         $database_implement_id = FRG_DB_INSTANCE_SECONDARY;
-        $database0implement = \castle\database_implement($database_implement_id);
+        $database0implement = database_implement($database_implement_id);
         if (isset($database0implement) === false)
         {
             echo 'no second db instance';
@@ -91,7 +97,7 @@ EOF;
     function test_third()
     {
         $database_implement_id = FRG_DB_INSTANCE_TERTIARY;
-        $database0implement = \castle\database_implement($database_implement_id);
+        $database0implement = database_implement($database_implement_id);
         if (isset($database0implement) === false)
         {
             echo 'no 3ed db instance';
@@ -135,7 +141,7 @@ EOF;
     function test_quaternary()
     {
         $database_implement_id = FRG_DB_INSTANCE_QUATERNARY;
-        $database0implement = \castle\database_implement($database_implement_id);
+        $database0implement = database_implement($database_implement_id);
         if (isset($database0implement) === false)
         {
             echo 'no 3ed db instance';
