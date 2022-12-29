@@ -365,4 +365,114 @@ EOF;
         }
 
     }
+
+    function test_store__store_records__delete__init_table()
+    {
+        foreach ([FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_SECONDARY, FRG_DB_INSTANCE_TERTIARY, FRG_DB_INSTANCE_QUATERNARY] as $database_implement_id) {
+            $database0implement = database_implement($database_implement_id);
+            $sql = <<<EOF
+DROP TABLE IF EXISTS `test0table`;
+EOF;
+            $database0implement->query($sql)->execute();
+
+            $sql = <<<EOF
+CREATE TABLE `TRADESYSTEM`.`test0table`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_int` int(10) NULL DEFAULT NULL,
+  `field_float` double NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key`(`field_char`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+EOF;
+            $database0implement->query($sql)->execute();
+
+            $database0implement->store('test0table', ['field_char'], ['field_char' => 'frog1', 'field_int' => 12]);
+
+            $actual = $database0implement->find_by('test0table', 'field_char', 'frog1');
+            $expect = [0  =>
+                [
+                    'id' => 1,
+                    'field_char' => 'frog1',
+                    'field_int' => 12,
+                    'field_float' => ''
+                ]
+            ];
+            $this->assertEquals($expect, $actual);
+            $actual = $database0implement->find_one_by('test0table', 'field_char', 'frog1');
+            $expect = [
+                    'id' => 1,
+                    'field_char' => 'frog1',
+                    'field_int' => 12,
+                    'field_float' => ''
+                ];
+            $this->assertEquals($expect, $actual);
+            $database0implement->store('test0table', ['field_char'], ['field_char' => 'frog1', 'field_int' => 14, 'field_float' => 14.0003]);
+            $actual = $database0implement->find_one_by('test0table', 'field_char', 'frog1');
+            $expect = [
+                'id' => 1,
+                'field_char' => 'frog1',
+                'field_int' => 14,
+                'field_float' => 14.0003
+            ];
+            $this->assertEquals($expect, $actual);
+            $data = [
+                [
+                    'field_char' => 'frog2',
+                    'field_int' => 12,
+                    'field_float' => 15.01
+                ],
+                [
+                'field_char' => 'frog3',
+                'field_int' => 13,
+                'field_float' => 40.5
+                ],
+                [
+                'field_char' => 'frog4',
+                'field_int' => 120,
+                'field_float' => 12.3
+                ]
+            ];
+
+            $database0implement->store_records('test0table', ['field_char'], $data);
+
+            $actual = $database0implement->find_one_by('test0table', 'field_char', 'frog4');
+            $expect = [
+                'id' => 5,
+                'field_char' => 'frog4',
+                'field_int' => 120,
+                'field_float' => 12.3
+            ];
+            $this->assertEquals($expect, $actual);
+
+            $database0implement->delete('test0table', 'field_char', 'frog4');
+            $actual = $database0implement->find_one_by('test0table', 'field_char', 'frog4');
+            $this->assertEquals([], $actual);
+
+            $database0implement->update_by_key('test0table', 1, [
+                'field_char' => 'frog_frog',
+                'field_int' => 11,
+                'field_float' => 11
+            ]);
+
+            $actual = $database0implement->find_one_by('test0table', 'field_char', 'frog_frog');
+            $expect = [
+                'id' => 1,
+                'field_char' => 'frog_frog',
+                'field_int' => 11,
+                'field_float' => 11
+            ];
+            $this->assertEquals($expect, $actual);
+
+            $database0implement->delete_all_data_and_reset_auto_increment('test0table');
+
+            $sql = <<<EOF
+SHOW TABLE STATUS where name = 'test0table';
+EOF;
+            $actual = $database0implement->query($sql)->execute()[0]['Auto_increment'];
+
+            $this->assertEquals(1, $actual);
+            //break;
+        }
+    }
 }
