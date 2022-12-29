@@ -48,8 +48,7 @@ EOF;
     {
         $database_implement_id = FRG_DB_INSTANCE_SECONDARY;
         $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false)
-        {
+        if (isset($database0implement) === false) {
             echo 'no second db instance';
             return;
         }
@@ -95,8 +94,7 @@ EOF;
     {
         $database_implement_id = FRG_DB_INSTANCE_TERTIARY;
         $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false)
-        {
+        if (isset($database0implement) === false) {
             echo 'no 3ed db instance';
             return;
         }
@@ -139,8 +137,7 @@ EOF;
     {
         $database_implement_id = FRG_DB_INSTANCE_QUATERNARY;
         $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false)
-        {
+        if (isset($database0implement) === false) {
             echo 'no 3ed db instance';
             return;
         }
@@ -182,8 +179,7 @@ EOF;
 
     function test_bind_param_params_quote()
     {
-        foreach ([FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_SECONDARY, FRG_DB_INSTANCE_TERTIARY, FRG_DB_INSTANCE_QUATERNARY] as $database_implement_id)
-        {
+        foreach ([FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_SECONDARY, FRG_DB_INSTANCE_TERTIARY, FRG_DB_INSTANCE_QUATERNARY] as $database_implement_id) {
             $database0implement = database_implement($database_implement_id);
 
             $sql = <<<EOF
@@ -258,8 +254,8 @@ EOF;
             $field_float = 314.0000003;
 
             $params = ['char_value' => $char_value,
-            'int_value' => $field_int,
-            'float_value' => $field_float];
+                'int_value' => $field_int,
+                'float_value' => $field_float];
 
             $sql = <<<EOF
 INSERT INTO `TRADESYSTEM`.`test0field` SET field_char = :char_value,`field_int` = :int_value, `field_float` = :float_value
@@ -292,5 +288,81 @@ DROP TABLE IF EXISTS `test0field`;
 EOF;
             $database0implement->query($sql)->execute();
         }
+    }
+
+    function test_transaction()
+    {
+        foreach ([FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_SECONDARY, FRG_DB_INSTANCE_TERTIARY, FRG_DB_INSTANCE_QUATERNARY] as $database_implement_id) {
+            $database0implement = database_implement($database_implement_id);
+
+            $sql = <<<EOF
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `order`;
+EOF;
+            $database0implement->query($sql)->execute();
+
+            $sql = <<<EOF
+CREATE TABLE `TRADESYSTEM`.`users`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_int` int(10) NULL DEFAULT NULL,
+  `field_float` double NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key`(`field_char`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+EOF;
+            $database0implement->query($sql)->execute();
+
+            $sql = <<<EOF
+INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key1',`field_int` = 144, `field_float` = 144.0001;
+INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key2',`field_int` = 10, `field_float` = 44.0001;
+INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key3',`field_int` = 20, `field_float` = 4.0001;
+EOF;
+            $database0implement->query($sql)
+                ->execute();
+            $sql = <<<EOF
+CREATE TABLE `TRADESYSTEM`.`order`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_int` int(10) NULL DEFAULT NULL,
+  `field_float` double NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key`(`field_char`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+EOF;
+            $database0implement->query($sql)->execute();
+
+            $database0implement->start_transaction();
+            $sql = <<<EOF
+UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
+EOF;
+            $database0implement->query($sql)
+                ->execute();
+            $database0implement->rollback_transaction();
+
+            $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
+            $this->assertEquals(144, $result);
+
+            $database0implement->start_transaction();
+            $sql = <<<EOF
+UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
+INSERT `TRADESYSTEM`.`order` SET `field_char` = 'key1', `field_int` = 44;
+EOF;
+            $database0implement->query($sql)
+                ->execute();
+            $database0implement->commit_transaction();
+            $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
+            $this->assertEquals(100, $result);
+
+            $result = $database0implement->find_one_by('order', 'field_char', 'key1')['field_int'];
+            $this->assertEquals(44, $result);
+
+            $sql = <<<EOF
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `order`;
+EOF;
+            $database0implement->query($sql)->execute();
+        }
+
     }
 }
