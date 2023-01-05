@@ -4,6 +4,7 @@ use function castle\database_implement;
 
 class Test_Class_Database0implement extends TestCase
 {
+
     function test_primary()
     {
         $sql = <<<EOF
@@ -15,8 +16,8 @@ EOF;
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `field_2` varchar(222) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`field_1`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -61,8 +62,8 @@ EOF;
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `field_2` varchar(222) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`field_1`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -105,8 +106,8 @@ EOF;
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `field_2` varchar(222) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`field_1`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -149,8 +150,8 @@ EOF;
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `field_2` varchar(222) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`field_1`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -190,7 +191,7 @@ EOF;
             $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `field_int` int(10) NULL DEFAULT NULL,
   `field_float` double NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -304,7 +305,7 @@ EOF;
             $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`users`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `field_int` int(10) NULL DEFAULT NULL,
   `field_float` double NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -323,7 +324,7 @@ EOF;
             $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`order`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `field_int` int(10) NULL DEFAULT NULL,
   `field_float` double NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -378,7 +379,7 @@ EOF;
             $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0table`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field_char` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `field_int` int(10) NULL DEFAULT NULL,
   `field_float` double NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
