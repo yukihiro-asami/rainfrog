@@ -22,9 +22,9 @@ class Table extends Castle
         return static::find_by(static::$_primary_key, $value);
     }
 
-    public static function find_one_by(string $column, int|string $value, $operator = '=') : array
+    public static function find_one_by(string $column, int|string $value) : array
     {
-        return static::find_by($column, $value, $operator, 1);
+        return database_implement(static::$_database_index)->find_one_by(static::_table_name(), $column, $value);
     }
 
     public static function find_by( string $column, string|int $value, string $operator = '=', ?int $limit = NULL, int $offset = 0) : array
