@@ -45,7 +45,7 @@ class DB extends Castle
     /**
      * @throws Throwable
      */
-    public function execute(): array
+    public function execute(): array | int
     {
         return $this->_db->execute();
     }

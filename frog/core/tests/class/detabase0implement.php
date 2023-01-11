@@ -38,6 +38,13 @@ EOF;
         $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => "\n\""];
         $this->assertEquals($expect, $actual);
 
+        $sql = "INSERT INTO `test0field` SET `field_1` = 'rainfrog2'";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(1, $actual);
+
+        $sql = "DELETE FROM `test0field`;";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(2, $actual);
 
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;

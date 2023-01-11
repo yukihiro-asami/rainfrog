@@ -56,15 +56,16 @@ class Database0implement_PDO extends Database0implement
      * @throws \Throwable
      * @noinspection PhpFullyQualifiedNameUsageInspection
      */
-    public function execute() : array
+    public function execute(bool $is_returning_count = false) : array | int
     {
         if ($this->_pdo === NULL)
             $this->_connect_db();
         try
         {
             $pdo_statement = $this->_pdo->prepare($this->_sql);
-            $this->_count = $pdo_statement->execute($this->_params);
+            $pdo_statement->execute($this->_params);
             $result = $this->_result = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
+            $count = $this->_count = $pdo_statement->rowCount();
         } catch (\Throwable $throwable) {
             $this->_error = $throwable->getMessage();
             $this->_log_and_init_params_and_query();
@@ -72,6 +73,10 @@ class Database0implement_PDO extends Database0implement
         }
         $this->_error = implode(' | ', $this->_pdo->errorInfo());
         $this->_log_and_init_params_and_query();
+        if ($is_returning_count)
+        {
+            return $count;
+        }
         return $result;
     }
 

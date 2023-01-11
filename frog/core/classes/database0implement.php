@@ -50,7 +50,7 @@ abstract class Database0implement extends Castle
 
     abstract public function params(array $name_and_values) : Database0implement;
 
-    abstract public function execute() : array;
+    abstract public function execute(bool $is_returning_count = false) : array | int;
 
     abstract public function quote(mixed $value) : string;
 
