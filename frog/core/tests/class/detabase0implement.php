@@ -54,16 +54,10 @@ EOF;
 
     function test_secondary()
     {
-        $database_implement_id = FRG_DB_INSTANCE_SECONDARY;
-        $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false) {
-            echo 'no second db instance';
-            return;
-        }
-
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
+        $database0implement = database_implement(FRG_DB_INSTANCE_SECONDARY);
         $database0implement->query($sql)->execute();
 
         $sql = <<<EOF
@@ -76,20 +70,28 @@ CREATE TABLE `TRADESYSTEM`.`test0field`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 EOF;
         $database0implement->query($sql)->execute();
-        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 secondary']);
+        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']);
 
         $actual = $database0implement->find_by('test0field', 'field_1', 'rainfrog');
-        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 secondary']];
+        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']];
         $this->assertEquals($expect, $actual);
 
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
-        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 secondary'];
+        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary'];
         $this->assertEquals($expect, $actual);
 
         $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => "\n\""]);
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
         $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => "\n\""];
         $this->assertEquals($expect, $actual);
+
+        $sql = "INSERT INTO `test0field` SET `field_1` = 'rainfrog2'";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(1, $actual);
+
+        $sql = "DELETE FROM `test0field`;";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(2, $actual);
 
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
@@ -100,16 +102,12 @@ EOF;
 
     function test_third()
     {
-        $database_implement_id = FRG_DB_INSTANCE_TERTIARY;
-        $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false) {
-            echo 'no 3ed db instance';
-            return;
-        }
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
+        $database0implement = database_implement(FRG_DB_INSTANCE_TERTIARY);
         $database0implement->query($sql)->execute();
+
         $sql = <<<EOF
 CREATE TABLE `TRADESYSTEM`.`test0field`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -120,20 +118,28 @@ CREATE TABLE `TRADESYSTEM`.`test0field`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 EOF;
         $database0implement->query($sql)->execute();
-        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 tertiary']);
+        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']);
 
         $actual = $database0implement->find_by('test0field', 'field_1', 'rainfrog');
-        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 tertiary']];
+        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']];
         $this->assertEquals($expect, $actual);
 
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
-        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 tertiary'];
+        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary'];
         $this->assertEquals($expect, $actual);
 
         $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => "\n\""]);
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
         $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => "\n\""];
         $this->assertEquals($expect, $actual);
+
+        $sql = "INSERT INTO `test0field` SET `field_1` = 'rainfrog2'";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(1, $actual);
+
+        $sql = "DELETE FROM `test0field`;";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(2, $actual);
 
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
@@ -143,15 +149,10 @@ EOF;
 
     function test_quaternary()
     {
-        $database_implement_id = FRG_DB_INSTANCE_QUATERNARY;
-        $database0implement = database_implement($database_implement_id);
-        if (isset($database0implement) === false) {
-            echo 'no 3ed db instance';
-            return;
-        }
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
 EOF;
+        $database0implement = database_implement(FRG_DB_INSTANCE_QUATERNARY);
         $database0implement->query($sql)->execute();
 
         $sql = <<<EOF
@@ -164,20 +165,28 @@ CREATE TABLE `TRADESYSTEM`.`test0field`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 EOF;
         $database0implement->query($sql)->execute();
-        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 quaternary']);
+        $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']);
 
         $actual = $database0implement->find_by('test0field', 'field_1', 'rainfrog');
-        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 quaternary']];
+        $expect = [['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary']];
         $this->assertEquals($expect, $actual);
 
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
-        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 quaternary'];
+        $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => '雨蛙 primary'];
         $this->assertEquals($expect, $actual);
 
         $database0implement->store('test0field', ['field_1'], ['field_1' => 'rainfrog', 'field_2' => "\n\""]);
         $actual = $database0implement->find_one_by('test0field', 'field_1', 'rainfrog');
         $expect = ['id' => 1, 'field_1' => 'rainfrog', 'field_2' => "\n\""];
         $this->assertEquals($expect, $actual);
+
+        $sql = "INSERT INTO `test0field` SET `field_1` = 'rainfrog2'";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(1, $actual);
+
+        $sql = "DELETE FROM `test0field`;";
+        $actual =  $database0implement->query($sql)->execute(true);
+        $this->assertEquals(2, $actual);
 
         $sql = <<<EOF
 DROP TABLE IF EXISTS `test0field`;
