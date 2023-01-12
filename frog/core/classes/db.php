@@ -45,9 +45,9 @@ class DB extends Castle
     /**
      * @throws Throwable
      */
-    public function execute(): array | int
+    public function execute(bool $is_returning_count = false): array | int
     {
-        return $this->_db->execute();
+        return $this->_db->execute($is_returning_count);
     }
 
     public function quote(string $string): string
