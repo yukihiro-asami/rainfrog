@@ -489,7 +489,12 @@ EOF;
             $actual = $database0implement->query($sql)->execute()[0]['Auto_increment'];
 
             $this->assertEquals(1, $actual);
-            //break;
+
+            $sql = <<<EOF
+DROP TABLE IF EXISTS `test0table`;
+EOF;
+            $database0implement->query($sql)->execute();
+
         }
     }
 }
