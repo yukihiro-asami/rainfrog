@@ -50,9 +50,10 @@ class DB extends Castle
         return $this->_db->execute($is_returning_count);
     }
 
-    public function quote(string $string): string
+    static public function quote(string $string, int $database_index = FRG_DB_INSTANCE_PRIMARY) : string
     {
-        return $this->_db->quote($string);
+        $db_instance = static::_db_instance($database_index);
+        return $db_instance->quote($string);
     }
 
     static function start_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
