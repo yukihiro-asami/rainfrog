@@ -12,7 +12,7 @@ class Castle
         if ($message instanceof \Throwable)
         {
             $logging_message = $message->getMessage() . ' s_id:' . static::_value('syslog_id') . PHP_EOL
-            . 'throwed at file ' . $message->getFile() . ' at line ' . $message->getLine() . PHP_EOL;
+            . 'thrown at file ' . $message->getFile() . ' at line ' . $message->getLine() . PHP_EOL;
         } else {
             $logging_message = $message . ' s_id:' . static::_value('syslog_id') . PHP_EOL;
         }
