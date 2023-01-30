@@ -16,6 +16,6 @@ return function (array &$vals) : string
     $vals['method'] = _empty_next($vals['request_method'], 'GET');
     $vals['is_https_on'] = $vals['https'] !== '';
     /** @noinspection HttpUrlsUsage */
-    $vals['url_base'] = $vals['is_https_on'] ? 'https://' : 'http://' . $vals['host'];
+    $vals['url_base'] = $vals['is_https_on'] ? 'https://' . $vals['host'] : 'http://' . $vals['host'];
     return 'success';
 };
