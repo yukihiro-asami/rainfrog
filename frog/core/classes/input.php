@@ -21,6 +21,6 @@ class Input extends Castle
 
     static public function uri() : array|string
     {
-        return static::_url_base();
+        return static::_request_uri();
     }
 }
