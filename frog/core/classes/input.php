@@ -18,4 +18,9 @@ class Input extends Castle
             return static::_params();
         return static::_params()[$name];
     }
+
+    static public function uri() : array|string
+    {
+        return static::_url_base();
+    }
 }
