@@ -6,6 +6,7 @@ use function castle\database_implement;
 
 class Test_Class_DB extends TestCase
 {
+
     function test_primary()
     {
 
@@ -94,4 +95,87 @@ EOF;
         $this->assertEquals($expect, $actual);
     }
 
+    function test_transaction()
+    {
+
+            $sql = <<<EOF
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `order`;
+EOF;
+            DB::query($sql)->execute();
+
+            $sql = <<<EOF
+CREATE TABLE `TRADESYSTEM`.`users`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `field_int` int(10) NULL DEFAULT NULL,
+  `field_float` double NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key`(`field_char`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+EOF;
+            DB::query($sql)->execute();
+
+            $sql = <<<EOF
+            INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key1',`field_int` = 144, `field_float` = 144.0001;
+            INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key2',`field_int` = 10, `field_float` = 44.0001;
+            INSERT INTO `TRADESYSTEM`.`users` SET `field_char` = 'key3',`field_int` = 20, `field_float` = 4.0001;
+            EOF;
+            DB::query($sql)
+                ->execute();
+
+            $sql = <<<EOF
+            CREATE TABLE `TRADESYSTEM`.`order`  (
+              `id` int(11) NOT NULL AUTO_INCREMENT,
+              `field_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+              `field_int` int(10) NULL DEFAULT NULL,
+              `field_float` double NULL DEFAULT NULL,
+              PRIMARY KEY (`id`) USING BTREE,
+              UNIQUE INDEX `key`(`field_char`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+            EOF;
+
+            DB::query($sql)->execute();
+
+            DB::start_transaction();
+
+            $sql = <<<EOF
+            UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
+            EOF;
+            DB::query($sql)
+                ->execute();
+
+            DB::rollback_transaction();
+
+            $sql = <<<EOF
+            UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
+            EOF;
+            $actual = DB::query($sql)
+                ->execute();
+
+/*
+        $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
+        $this->assertEquals(144, $result);
+        /*
+                $database0implement->start_transaction();
+                $sql = <<<EOF
+        UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
+        INSERT `TRADESYSTEM`.`order` SET `field_char` = 'key1', `field_int` = 44;
+        EOF;
+                $database0implement->query($sql)
+                    ->execute();
+                $database0implement->commit_transaction();
+                $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
+                $this->assertEquals(100, $result);
+
+                $result = $database0implement->find_one_by('order', 'field_char', 'key1')['field_int'];
+                $this->assertEquals(44, $result);
+
+                $sql = <<<EOF
+        DROP TABLE IF EXISTS `users`;
+        DROP TABLE IF EXISTS `order`;
+        EOF;
+                $database0implement->query($sql)->execute();*/
+
+    }
 }
