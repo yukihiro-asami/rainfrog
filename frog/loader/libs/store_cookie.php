@@ -4,7 +4,7 @@ function store_cookie(
     string $name,
     string|array $value = "",
     int $expires_or_options = 0,
-    string $path = "",
+    string $path = "/",
     string $domain = ""
 ) : bool
 {

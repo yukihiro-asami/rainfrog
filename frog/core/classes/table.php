@@ -19,7 +19,7 @@ class Table extends Castle
 
     public static function find_by_pk(int|string $value) : array
     {
-        return static::find_by(static::$_primary_key, $value);
+        return static::find_one_by(static::$_primary_key, $value);
     }
 
     public static function find_one_by(string $column, int|string $value) : array

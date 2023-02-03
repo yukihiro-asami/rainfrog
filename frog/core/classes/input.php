@@ -16,11 +16,11 @@ class Input extends Castle
     {
         if ($name === null)
             return static::_params();
-        return static::_params()[$name];
+        return array_key_exists($name, static::params()) ? static::_params()[$name] : '';
     }
 
     static public function uri() : array|string
     {
-        return static::_request_uri();
+        return static::_path();
     }
 }
