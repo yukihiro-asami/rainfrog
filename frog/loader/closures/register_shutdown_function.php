@@ -9,6 +9,7 @@ return function (array &$vals) : string
         {
             global $__body, $__cookies;
             send_status_line();
+            send_headers();
             array_map(
                 function ($cookie_name, $cookie_values) use ($vals) {
                     setcookie($cookie_name, $cookie_values['value'], $cookie_values['expires'], $cookie_values['path'], $cookie_values['domain']);

@@ -4,6 +4,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class Response extends Castle
 {
+
     function __construct(string|View $body = '', $status = 200, array $headers = array())
     {
         if (gettype($body) === 'string')
@@ -15,10 +16,12 @@ class Response extends Castle
         $this->set_status($status);
         array_map(fn($header) => append_header($header[0], $header[1]), $headers);
     }
+
     static function forge(string|View $body = '', $status = 200, array $headers = array()) : Response
     {
         return new static($body, $status, $headers);
     }
+
     #[NoReturn]
     static function redirect(string $url = '', bool $is_method_location = true, $redirect_code = 302) : void
     {
@@ -37,13 +40,14 @@ class Response extends Castle
         {
             append_header('Refresh', '0;url=' . $url);
         }
-        exit;
     }
+
     public function set_status(int $status = 200) : Response
     {
         set_status($status);
         return $this;
     }
+
     public function body(string|bool $value = false) : Response|string
     {
         if ($value === false)
