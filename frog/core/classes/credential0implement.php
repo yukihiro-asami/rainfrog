@@ -7,6 +7,7 @@ class Credential0implement extends Castle
 {
     CONST COOKIE_DELETE_SEC = 3600;
     CONST MAX_PASSWORD_LENGTH = 128;
+    CONST SESSION_COOKIE_PATH = '/';
     public bool $_logging = false;
     public string $_user_table_name;
     public string $_session_table_name;
@@ -83,7 +84,7 @@ class Credential0implement extends Castle
                         'rotated_at' => time()
                     ];
                     $this->_update_session($this->_session_id, $params);
-                    $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time);
+                    $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::SESSION_COOKIE_PATH);
                 } else {
                     $this->_session_token = $this->_received_session_token;
                 }
