@@ -7,7 +7,7 @@ class Credential0implement extends Castle
 {
     CONST COOKIE_DELETE_SEC = 3600;
     CONST MAX_PASSWORD_LENGTH = 128;
-    CONST SESSION_COOKIE_PATH = '/';
+    CONST DEFAULT_COOKIE_PATH = '/';
     public bool $_logging = false;
     public string $_user_table_name;
     public string $_session_table_name;
@@ -62,7 +62,7 @@ class Credential0implement extends Castle
         if ($this->_received_session_token === '' OR array_key_exists('id', $session) === false)
         {
             $this->_session_token = generate_token();
-            $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time);
+            $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
             $params = [
                 'token' => $this->_session_token,
                 'rotated_at' => time()
@@ -84,7 +84,7 @@ class Credential0implement extends Castle
                         'rotated_at' => time()
                     ];
                     $this->_update_session($this->_session_id, $params);
-                    $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::SESSION_COOKIE_PATH);
+                    $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
                 } else {
                     $this->_session_token = $this->_received_session_token;
                 }
@@ -234,7 +234,7 @@ class Credential0implement extends Castle
         if ($this->_user_id === NULL)
             return false;
         $token = generate_token();
-        $this->set_cookie($this->_remember_me_cookie_name, $token, $this->_remember_me_expiration);
+        $this->set_cookie($this->_remember_me_cookie_name, $token, $this->_remember_me_expiration, static::DEFAULT_COOKIE_PATH);
         $this->_store_remember_me($token, $this->_user_id, static::_remote_addr(), static::_user_agent());
         return true;
     }
