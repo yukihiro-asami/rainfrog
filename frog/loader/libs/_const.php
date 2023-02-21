@@ -22,6 +22,7 @@ namespace
     const FRG_ENV_STAGING = 'staging';
     const FRG_ENV_PRODUCTION = 'production';
     const FRG_MEDIA_TYPE_APPLICATION_JSON = 'application/json';
+    const FRG_MEDIA_TYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
     const FRG_MODE_PHPUNIT = 'phpunit';
     const FRG_MODE_TASK = 'task';
     const FRG_MODE_WEB = 'web';
