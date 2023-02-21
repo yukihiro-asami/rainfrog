@@ -18,6 +18,7 @@ Database0implement_PDO_Mariadb
 Database0implement_PDO_Mysql
 DB
 Table
+Upload
 EOF;
 
     foreach (explode(PHP_EOL, $class_names) as $class_name)

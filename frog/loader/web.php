@@ -35,6 +35,7 @@ $__cookies = [];
 $__dbs = [];
 $__db_logs = [];
 $__credential = NULL;
+$__upload_files = [];
 
 foreach (explode(PHP_EOL, $commands) as $command)
 {
