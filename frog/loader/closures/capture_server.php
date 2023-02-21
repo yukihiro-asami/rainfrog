@@ -3,6 +3,7 @@ namespace castle;
 return function (array &$vals) : string
 {
     $vals['captured_server_value'] = $_SERVER;
+    $vals['captured_raw_header'] = getallheaders();
     $vals['accept_language'] = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     $vals['host'] = $_SERVER['HTTP_HOST'];
     $vals['castle_environment_value'] = $_SERVER['FRG_ENV'] ?? '';
@@ -17,5 +18,6 @@ return function (array &$vals) : string
     $vals['is_https_on'] = $vals['https'] !== '';
     /** @noinspection HttpUrlsUsage */
     $vals['url_base'] = $vals['is_https_on'] ? 'https://' . $vals['host'] : 'http://' . $vals['host'];
+    $vals['files'] = $_FILES;
     return 'success';
 };
