@@ -76,7 +76,7 @@ class Castle
 
     protected static function _files() : array|string
     {
-        return trim(static::_value(__FUNCTION__));
+        return static::_value(__FUNCTION__);
     }
 
     protected static function _value(string $key_or_file_name) : string|array
