@@ -64,6 +64,11 @@ class Castle
         return static::_value(__FUNCTION__);
     }
 
+    protected static function _upload() : array
+    {
+        return static::_value(__FUNCTION__);
+    }
+
     protected static function _remote_addr() : string
     {
         return trim(static::_value(__FUNCTION__));

@@ -1,0 +1,5 @@
+{
+  "is_file_save": true,
+  "path": "/tmp/upload/",
+  "move_command": "mv -f $1 $2"
+}

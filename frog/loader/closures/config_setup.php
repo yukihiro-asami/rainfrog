@@ -17,5 +17,6 @@ return function (array &$vals) : string
     $vals['dbs'] = $config['dbs'] ?? [];
     $vals['cookie_setting'] = $config['cookie'] ?? [];
     $vals['credential'] = $config['credential'] ?? [];
+    $vals['upload'] = $config['upload'] ?? [];
     return 'success';
 };
