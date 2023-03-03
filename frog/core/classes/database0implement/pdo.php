@@ -82,6 +82,9 @@ class Database0implement_PDO extends Database0implement
 
     public function quote(mixed $value) : string
     {
+        if (is_null($value)) {
+            return 'NULL';
+        }
         if (is_string($value) === false)
             return $value;
         if ($this->_pdo === NULL)
