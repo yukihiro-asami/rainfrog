@@ -32,6 +32,11 @@ class Auth extends Castle
         return static::_credential_implement()->validate_anti_csrf_token($token);
     }
 
+    static function delete_session_data() : bool
+    {
+        return static::_credential_implement()->delete_session_data();
+    }
+
     static function _credential_implement() : Credential0implement
     {
         global $__credential;
