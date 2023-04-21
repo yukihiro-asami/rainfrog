@@ -5,7 +5,8 @@ use PHPUnit\SebastianBergmann\CodeCoverage\Report\PHP;
 
 return function (array &$vals) : string
 {
-    global $__task_class_name, $__task_param;
+    global $__task_class_name;
+    set_credential(new Credential0implement());
     $task_program_path =  $vals['app_classes_dir'] . 'task/'.  mb_strtolower($__task_class_name) . '.php';
     if (file_exists($task_program_path) === true)
     {
