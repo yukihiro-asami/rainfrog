@@ -206,6 +206,12 @@ class Test_Class_Credential extends TestCase
 
     function test_hoge()
     {
-        echo 'hoge';
+        try {
+            $credential0implement = new \castle\Credential0implement(true);
+        } catch (Throwable $t) {
+            print_r($t->getTraceAsString());
+        }
+        print_r($credential0implement);
+        $credential0implement->issue_session_id();
     }
 }

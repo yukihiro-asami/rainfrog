@@ -36,7 +36,7 @@ class Credential0implement extends Castle
     public string $_anti_csrf_token_salt;
     public int $_anti_csrf_token_expire;
 
-    function __construct(bool $is_web_access= true)
+    function __construct(bool $is_web_access = true)
     {
         if ($is_web_access === false)
             return;
@@ -56,19 +56,9 @@ class Credential0implement extends Castle
         $this->_remember_me_cookie_name = static::_credential()['remember_me_cookie_name'];
         $this->_remember_me_expiration = static::_credential()['remember_me_expiration'];
         $this->_remember_me_match_ip = static::_credential()['remember_me_match_ip'];
-        $session = [];
         if ($this->_received_session_token !== '')
-            $session = $this->_find_session_by_token($this->_received_session_token);
-        if ($this->_received_session_token === '' OR array_key_exists('id', $session) === false)
         {
-            $this->_session_token = generate_token();
-            $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
-            $params = [
-                'token' => $this->_session_token,
-                'rotated_at' => time()
-            ];
-            $this->_store_session($params);
-        } else {
+            $session = $this->_find_session_by_token($this->_received_session_token);
             if (array_key_exists('id', $session) === true)
             {
                 $this->_session_id = $session['id'];
@@ -165,6 +155,24 @@ class Credential0implement extends Castle
             return true;
         static::_log_info('validate anti csrf token failed:' . $message);
         return false;
+    }
+
+    function issue_session_id() : bool
+    {
+        if ($this->_received_session_token !== ''
+            and array_key_exists('id', $this->_find_session_by_token($this->_received_session_token))
+        )
+            return true;
+
+        $this->_session_token = generate_token();
+        $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
+        $params = [
+            'token' => $this->_session_token,
+            'rotated_at' => time()
+        ];
+        $this->_store_session($params);
+
+        return true;
     }
 
     function _generate_anti_csrf_token(string $salt, int $user_id, int $session_id, int $expire) : string
