@@ -164,6 +164,7 @@ class Credential0implement extends Castle
         )
             return true;
 
+        $this->_log_credential('session_token: ' . $this->_session_token . ' session_id: ' . $this->_session_id . 'ip_address: ' . static::_remote_addr() . 'path: ' . static::_path());
         $this->_session_token = generate_token();
         $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
         $params = [
