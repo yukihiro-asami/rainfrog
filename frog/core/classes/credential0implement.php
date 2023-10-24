@@ -297,7 +297,7 @@ class Credential0implement extends Castle
             ->update_by_key($this->_user_table_name, $id, $fields);
     }
 
-    function _store_user(array $params) : void
+    function store_user(array $params) : void
     {
         $this->_database0implement
             ->store(
@@ -357,7 +357,7 @@ class Credential0implement extends Castle
             );
     }
 
-    function _password_hash(string $password) : string|bool
+    function password_hash(string $password) : string|bool
     {
         if (mb_check_encoding($password, 'ASCII') === false)
             return false;
