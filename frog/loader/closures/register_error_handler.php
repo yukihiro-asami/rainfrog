@@ -13,6 +13,6 @@ return function (array &$vals) : string
     echo view($params, $path);
     die;
 };
-    //set_error_handler($callback);
+    set_error_handler($callback);
     return 'success';
 };
