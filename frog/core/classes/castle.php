@@ -7,6 +7,11 @@ class Castle
         static::_log($message, '__INFO__');
     }
 
+    static protected function _log_error(\Throwable|string $message) : void
+    {
+        static::_log($message, '__ERROR__');
+    }
+
     static protected function _log(\Throwable|string $message, string $label) : void
     {
         if ($message instanceof \Throwable)
