@@ -3,10 +3,7 @@ namespace castle;
 class Controller extends Castle
 {
     protected string $_view_filename;
-    public function setViewFilename(string $view_filename): void
-    {
-        $this->_view_filename = $view_filename;
-    }
+
     function __construct()
     {
         $class_array = explode('_', get_class($this));
