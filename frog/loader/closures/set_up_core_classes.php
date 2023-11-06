@@ -19,6 +19,7 @@ Database0implement_PDO_Mysql
 DB
 Table
 Upload
+Log
 EOF;
 
     foreach (explode(PHP_EOL, $class_names) as $class_name)

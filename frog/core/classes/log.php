@@ -2,7 +2,7 @@
 namespace castle;
 use Throwable;
 
-class Log extends Castle
+class log extends Castle
 {
 
     static public function info(Throwable|String $message) : void
