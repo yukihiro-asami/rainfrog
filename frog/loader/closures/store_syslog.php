@@ -3,7 +3,7 @@ namespace castle;
 
 return function (array &$vals) : string
 {
-    global $__db_logs, $__status, $__headers;
+    global $__db_logs, $__status, $__headers, $__mode;
     foreach (scandir($vals['syslog_dir']) as $file_name)
     {
         if (in_array($file_name, ['.', '..']) === true)
@@ -20,6 +20,7 @@ return function (array &$vals) : string
     $vals['db_log'] = $__db_logs;
     $vals['http_response_status_code'] = $__status;
     $vals['http_headers'] = $__headers;
+    $vals['mode'] = $__mode;
     file_put_contents($vals['syslog_dir']  . $vals['syslog_id'] . '.json', json_encode($vals, JSON_PRETTY_PRINT));
     return 'success';
 };
