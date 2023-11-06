@@ -1,4 +1,5 @@
 <?php
+/** @noinspection DuplicatedCode */
 echo __NAMESPACE__ . 'phpunit' .  PHP_EOL;
 include('libs/load.php');
 $commands = <<<EOF
@@ -8,9 +9,9 @@ set_up_core_classes
 process_cookie
 register_app_auto_loader
 set_up_database
+set_up_test
 EOF;
-global $__mode, $__results, $__vals, $__body, $__protocol, $__status, $__headers, $__cookies, $__dbs;
-/** @noinspection DuplicatedCode */
+global $__mode, $__results, $__vals, $__body, $__protocol, $__status, $__headers, $__cookies, $__dbs, $__credential;
 $__mode = FRG_MODE_PHPUNIT;
 $__results = [];
 $__vals = [];
