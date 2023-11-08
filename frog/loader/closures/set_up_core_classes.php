@@ -20,6 +20,7 @@ DB
 Table
 Upload
 Log
+RfTestCase
 EOF;
 
     foreach (explode(PHP_EOL, $class_names) as $class_name)

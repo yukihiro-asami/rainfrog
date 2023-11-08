@@ -9,7 +9,6 @@ set_up_core_classes
 register_app_auto_loader
 set_up_database
 set_up_test
-store_syslog
 EOF;
 global $__mode, $__results, $__vals, $__body, $__protocol, $__status, $__headers, $__cookies, $__dbs, $__credential;
 $__mode = FRG_MODE_PHPUNIT;
