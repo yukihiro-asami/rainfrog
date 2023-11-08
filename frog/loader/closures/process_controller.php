@@ -27,8 +27,9 @@ return function (array &$vals) : string
         } else {
             $vals['is_controller_callable'] = false;
         }
-    } /** @noinspection PhpUnusedLocalVariableInspection */ catch (Throwable $t) {
+    }  catch (Throwable $t) {
         $vals['is_controller_callable'] = false;
+        throw $t;
     }
     return 'success';
 };
