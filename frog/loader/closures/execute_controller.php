@@ -14,6 +14,7 @@ return function (array &$vals) : string
         $function = array($controller, $vals['controller_with_value_path_method']);
         $function($vals['param_of_controller']);
     } else {
+        set_status(FRG_HTTP_STATUS_CODE_404_NOT_FOUND);
         $path = $vals['views_dir'] . 'castle/__404__.php';
         echo view([], $path);
     }
