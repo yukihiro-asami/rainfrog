@@ -21,6 +21,7 @@ return function (array &$vals) : string
     $vals['http_response_status_code'] = $__status;
     $vals['http_headers'] = $__headers;
     $vals['mode'] = $__mode;
+    $vals['end_with'] = "store_syslog";
     file_put_contents($vals['syslog_dir']  . $vals['syslog_id'] . '.json', json_encode($vals, JSON_PRETTY_PRINT));
     return 'success';
 };
