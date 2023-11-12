@@ -15,6 +15,11 @@ class Cookie extends Castle
         return static::_credential_instance()->get_cookie($name);
     }
 
+    static public function delete(string $name) : bool
+    {
+        return static::_credential_instance()->delete_cookie($name);
+    }
+
     private static function _credential_instance(): Credential0implement
     {
         global $__credential;
