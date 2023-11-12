@@ -10,6 +10,12 @@ class RfTestCase extends TestCase
         $__vals[$key] = $value;
     }
 
+    static function get_global_value(string $key) : mixed
+    {
+        global $__vals;
+        return $__vals[$key];
+    }
+
     static function store_syslog()
     {
         global $__vals;
