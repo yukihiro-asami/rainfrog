@@ -54,7 +54,6 @@ class Auth extends Castle
 
     static function _credential_implement() : Credential0implement
     {
-        global $__credential;
-        return $__credential;
+        return credential();
     }
 }
