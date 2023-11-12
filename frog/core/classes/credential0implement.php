@@ -1,6 +1,5 @@
 <?php /** @noinspection PhpUnused */
 namespace castle;
-use PHPUnit\phpDocumentor\Reflection\Types\Null_;
 use Throwable;
 
 class Credential0implement extends Castle
@@ -186,6 +185,9 @@ class Credential0implement extends Castle
 
     function _validate_anti_csrf_token(string $salt, int $user_id, int $session_id, string $anti_csrf_token) : array
     {
+        $token_array = explode('|', $anti_csrf_token);
+        if (count($token_array) !== 3)
+            return [false, 'invalid token'];
         list($nonce, $token, $expire_at) = explode('|', $anti_csrf_token);
         if ($expire_at < time())
             return [false, 'expired'];

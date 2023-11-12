@@ -1,51 +1,18 @@
 <?php
-class Test_Class_Credential extends TestCase
+class Test_Class_Credential extends \castle\RfTestCase
 {
 
-    function test_is_ip_addresses_identical_01()
+    function test_log_credential()
     {
-        $credential0implement = new \castle\Credential0implement();
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1000', 32);
-        $this->assertFalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.1000', '0.0.0.0', 32);
-        $this->assertFalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('a', 'a', 32);
-        $this->assertFalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 32);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('255.255.255.255', '255.255.255.255', 32);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1', 32);
-        $this->assertFalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 24);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1', 24);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 24);
-        $this->assertfalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 16);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 16);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 16);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.1.1.1', 16);
-        $this->assertFalse($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 8);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 8);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.1.1.1', 8);
-        $this->assertTrue($result);
-        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '1.1.1.1', 8);
-        $this->assertFalse($result);
+        $credential0implement = \castle\credential();
+        $credential0implement->_log_credential('hoge hoge');
     }
 
     function test_password_hash()
     {
-        $credential0implement = new \castle\Credential0implement();
+        $credential0implement = \castle\credential();
         $pw_1 = 'hagehage';
-        $pw_hash_1 = $credential0implement->_password_hash($pw_1);
+        $pw_hash_1 = $credential0implement->password_hash($pw_1);
         $result = $credential0implement->_verify_password_hash($pw_hash_1, $pw_1);
         $this->assertTrue($result);
         $result = $credential0implement->_verify_password_hash($pw_hash_1, $pw_1 . 'a');
@@ -53,165 +20,183 @@ class Test_Class_Credential extends TestCase
         $result = $credential0implement->_verify_password_hash($pw_hash_1 . 'hoge', $pw_1);
         $this->assertFalse($result);
         $pw_2 = 'ほげほげ';
-        $pw_hash_2 = $credential0implement->_password_hash($pw_2);
+        $pw_hash_2 = $credential0implement->password_hash($pw_2);
         $this->assertFalse($pw_hash_2);
         $pw_3 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-        $pw_hash_3 = $credential0implement->_password_hash($pw_3);
+        $pw_hash_3 = $credential0implement->password_hash($pw_3);
         $is_string = is_string($pw_hash_3);
         $this->assertFalse($is_string);
         $pw_4 = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-        echo $pw_hash_4 = $credential0implement->_password_hash($pw_4);
+        echo $pw_hash_4 = $credential0implement->password_hash($pw_4);
         $is_string_2 = is_string($pw_hash_4);
         $this->assertTrue($is_string_2);
     }
 
-    function test_cookie()
+    function test_is_ip_addresses_identical()
+    {
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1000', 32);
+        $this->assertFalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.1000', '0.0.0.0', 32);
+        $this->assertFalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('a', 'a', 32);
+        $this->assertFalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 32);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('255.255.255.255', '255.255.255.255', 32);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1', 32);
+        $this->assertFalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 24);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.1', 24);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 24);
+        $this->assertfalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 16);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 16);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.1.1.1', 16);
+        $this->assertFalse($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.0.0', 8);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.0.1.1', 8);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '0.1.1.1', 8);
+        $this->assertTrue($result);
+
+        $result = $credential0implement->_is_ip_addresses_identical('0.0.0.0', '1.1.1.1', 8);
+        $this->assertFalse($result);
+    }
+
+    function test_anti_csrf_token_expire()
+    {
+        $credential0implement = \castle\credential();
+        $token = $credential0implement->_generate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, 25);
+
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, $token);
+        $this->assertTrue($result[0]);
+
+        sleep(26);
+
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, $token);
+        $this->assertFalse($result[0]);
+        $this->assertEquals('expired', $result[1]);
+    }
+
+    function test_anti_csrf_token_sleep()
+    {
+        $credential0implement = \castle\credential();
+        $token = $credential0implement->_generate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, 25);
+
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, $token);
+        $this->assertEquals([true, ''], $result);
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, $token . 'a');
+        $this->assertEquals([false, 'invalid token'], $result);
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 1, 'hagea');
+        $this->assertEquals([false, 'invalid token'], $result);
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 1, 2, $token);
+        $this->assertEquals([false, 'invalid token'], $result);
+        $result = $credential0implement->_validate_anti_csrf_token('TRobKwZPIecwV6ffeDDMUye7viHUhh5S', 2, 1, $token);
+        $this->assertEquals([false, 'invalid token'], $result);
+    }
+
+    function test_anti_csrf_token_2()
+    {
+        $credential0implement = \castle\credential();
+        $credential0implement->_user_id = 1;
+        $credential0implement->_session_id = 1;
+        $credential0implement->_anti_csrf_token_expire = 10;
+        $token = $credential0implement->anti_csrf_token();
+        $result = $credential0implement->validate_anti_csrf_token($token);
+        $this->assertTrue($result);
+
+        $credential0implement->_user_id = 2;
+        $credential0implement->_session_id = 1;
+        $credential0implement->_anti_csrf_token_expire = 10;
+        $result = $credential0implement->validate_anti_csrf_token($token);
+        $this->assertFalse($result);
+
+        $credential0implement->_user_id = 1;
+        $credential0implement->_session_id = 2;
+        $credential0implement->_anti_csrf_token_expire = 10;
+        $result = $credential0implement->validate_anti_csrf_token($token);
+        $this->assertFalse($result);
+
+        $credential0implement->_user_id = 1;
+        $credential0implement->_session_id = 1;
+        $credential0implement->_anti_csrf_token_expire = 10;
+        $result = $credential0implement->validate_anti_csrf_token($token);
+        $this->assertTrue($result);
+        sleep(11);
+        $result = $credential0implement->validate_anti_csrf_token($token);
+        $this->assertFalse($result);
+    }
+
+    function test_set_cookie_encrypt()
     {
         global $__vals;
-        $__vals['captured_cookie_values'] = ['hoge'  =>  'hogehoge'];
-        $credential0implement = new \castle\Credential0implement();
-        echo $credential0implement->get_cookie('hoge') . PHP_EOL;
+        $cookie_encrypt_key = $__vals['cookie_setting']['encrypt_key'];
+        $cookie_name = 'cookie_key_test';
+        $cookie_value = 'cookie message';
+        $credential0implement = \castle\credential();
+        $credential0implement->_is_cookie_encrypted = true;
+        $credential0implement->set_cookie($cookie_name, $cookie_value);
+        global $__cookies;
+        $message = \castle\secret_box_open($__cookies[$cookie_name]['value'], $cookie_encrypt_key);
+        $this->assertEquals($cookie_value, $message);
     }
 
-    function test_init_session()
+    function test_set_get_cookie_encrypt_array()
     {
         global $__vals;
-        $__vals['captured_cookie_values'] = ['session_info'  =>  'hogehoge'];
-        $credential0implement = new \castle\Credential0implement();
-        echo $credential0implement->_current_session_token . PHP_EOL;
+        $cookie_name = 'cookie_key_test';
+        $sending_cookie_value = ['cookie message' => 'hoge'];
+        $credential0implement = \castle\credential();
+        $credential0implement->_is_cookie_encrypted = true;
+        $credential0implement->set_cookie($cookie_name, $sending_cookie_value);
+        global $__cookies;
+        $processed_cookie_value = $__cookies[$cookie_name]['value'];
+        $__vals['captured_cookie_values'][$cookie_name] = $processed_cookie_value;
+        $recieved_cookie_value = $credential0implement->get_cookie($cookie_name);
+        $this->assertEquals($sending_cookie_value, $recieved_cookie_value);
     }
 
-    function test_session_store_and_find()
+    function test_set_cookie()
     {
-        $token = 'hogehoge';
-        $fields = ['token' => $token, 'is_logged_in' => 1, 'user_id' => 10, 'rotated_at' => time()];
-        $credential0implement = new \castle\Credential0implement();
-        $credential0implement->_store_session($fields);
-        $result = $credential0implement->_find_session_by_token($token);
-        print_r($result);
-        $fields_2 = ['token' => $token, 'is_logged_in' => 0, 'user_id' => 0, 'rotated_at' => 0];
-        $credential0implement->_store_session($fields_2);
-        $result = $credential0implement->_find_session_by_token($token);
-        print_r($result);
-        $token_2 = 'hagehage';
-        $fields_3 = ['token' => $token_2, 'is_logged_in' => 1, 'user_id' => 10, 'rotated_at' => time()];
-        $credential0implement->_update_session($result['id'], $fields_3);
-        $result = $credential0implement->_find_session_by_token($token_2);
-        print_r($result);
+        $cookie_name = 'cookie_key_test';
+        $cookie_value = 'cookie message';
+        $expire = 100;
+        $credential0implement = \castle\credential();
+        $credential0implement->set_cookie($cookie_name, $cookie_value, $expire);
+        global $__cookies;
+        $message = $__cookies[$cookie_name]['value'];
+        $expire_actual = $__cookies[$cookie_name]['expires'] - time();
+        $this->assertEquals($expire, $expire_actual);
     }
 
-    function test_3()
+    function test_delete_cookie()
     {
-        $name = 'hogehoge';
-        $credential0implement = new \castle\Credential0implement();
-        $params = [
-           'name' => $name,
-           'password_hash' =>  'hagehage'
-        ];
-        $credential0implement->_store_user($params);
-        $user = $credential0implement->_find_user_by_name($name);
-        print_r($user);
-        $name = $name . '1';
-        $params = [
-            'name' => $name,
-            'password_hash' =>  'hagehage2'
-        ];
-        $credential0implement->_update_user($user['id'], $params);
-        $user = $credential0implement->_find_user_by_name($name);
-        print_r($user);
-    }
-
-    function test_user()
-    {
-        $name = 'hogehoge';
-        $pass_word = 'hoge1234';
-        $credential0implement = new \castle\Credential0implement();
-        $params = [
-            'name' => $name,
-            'password_hash' =>  $credential0implement->_password_hash($pass_word)
-        ];
-
-        /** @noinspection DuplicatedCode */
-        $credential0implement->_store_user($params);
-        $user = $credential0implement->_find_user_by_name($name);
-        $result_1 = $credential0implement->_verify_password_hash($user['password_hash'], $pass_word);
-        $this->assertTrue($result_1);
-        $result_2 = $credential0implement->_verify_password_hash($user['password_hash'] . 'hage', $pass_word);
-        $this->assertFalse($result_2);
-    }
-
-    function test_validate_user()
-    {
-        $name = 'hogehoge';
-        $pass_word = 'hoge1234';
-        $credential0implement = new \castle\Credential0implement();
-        $params = [
-            'name' => $name,
-            'password_hash' =>  $credential0implement->_password_hash($pass_word)
-        ];
-
-        /** @noinspection DuplicatedCode */
-        $credential0implement->_store_user($params);
-
-        $result_1 = $credential0implement->validate_user($name, $pass_word);
-        $this->assertIsArray($result_1);
-        $result_2 = $credential0implement->_verify_password_hash($name . 'hage', $pass_word);
-        $this->assertFalse($result_2);
-        $result_3 = $credential0implement->_verify_password_hash($name, $pass_word  . 'hage');
-        $this->assertFalse($result_3);
-    }
-
-    function test_delete_session_data()
-    {
-        $credential0implement = new \castle\Credential0implement(false);
-        print_r($credential0implement);
-        $credential0implement->delete_session_data();
-    }
-
-    function test_store_rm_cookie()
-    {
-        $credential0implement = new \castle\Credential0implement(false);
-        $credential0implement->_store_remember_me('hogehoge', 11, '1.1.1.1', 'hoge hage ua', );
-        $result = $credential0implement->_find_remember_me_by_token('hogehoge');
-        print_r($result);
-        $result = $credential0implement->_find_remember_me_by_token('hogehoge1');
-        print_r($result);
-    }
-
-    function test_anti_()
-    {
-        $salt = 'hogehoge';
-        $user_id = 11;
-        $session_id = 144;
-        $expire = 3;
-        $credential0implement = new \castle\Credential0implement(false);
-        $token = $credential0implement->_generate_anti_csrf_token($salt, $user_id, $session_id, $expire);
-        list($is_ok, $message) = $credential0implement->_validate_anti_csrf_token($salt, $user_id, $session_id, $token);
-        $this->assertTrue($is_ok);
-        list($is_ok, $message) = $credential0implement->_validate_anti_csrf_token($salt, $user_id, $session_id, $token . 'hoge');
-        $this->assertFalse($is_ok);
-        echo $message . PHP_EOL;
-        list($is_ok, $message) = $credential0implement->_validate_anti_csrf_token($salt, 2, $session_id, $token);
-        $this->assertFalse($is_ok);
-        echo $message . PHP_EOL;
-        list($is_ok, $message) = $credential0implement->_validate_anti_csrf_token($salt, $user_id, 1, $token);
-        $this->assertFalse($is_ok);
-        echo $message . PHP_EOL;
-        sleep(10);
-        list($is_ok, $message) = $credential0implement->_validate_anti_csrf_token($salt, $user_id, $session_id, $token);
-        $this->assertFalse($is_ok);
-        echo $message . PHP_EOL;
-    }
-
-
-    function test_hoge()
-    {
-        try {
-            $credential0implement = new \castle\Credential0implement(true);
-        } catch (Throwable $t) {
-            print_r($t->getTraceAsString());
-        }
-        print_r($credential0implement);
-        $credential0implement->issue_session_id();
+        $cookie_name = 'cookie_key_test';
+        $credential0implement = \castle\credential();
+        $credential0implement->delete_cookie($cookie_name);
+        global $__cookies;
+        $delete_sec = $__cookies[$cookie_name]['expires'] - time();
+        $this->assertEquals(-$credential0implement::COOKIE_DELETE_SEC, $delete_sec);
     }
 }
