@@ -20,7 +20,7 @@ class Credential0implement extends Castle
     public string $_remember_me_cookie_name;
     public int $_remember_me_expiration;
     public bool $_remember_me_match_ip;
-    public bool $_remember_me_match_ip_mask;
+    public int $_remember_me_match_ip_mask;
     public bool $_is_cookie_encrypted;
     public ?int $_user_id = NULL;
     public ?string $_current_session_token = NULL;
@@ -55,6 +55,7 @@ class Credential0implement extends Castle
         $this->_remember_me_cookie_name = static::_credential()['remember_me_cookie_name'];
         $this->_remember_me_expiration = static::_credential()['remember_me_expiration'];
         $this->_remember_me_match_ip = static::_credential()['remember_me_match_ip'];
+        $this->_remember_me_match_ip_mask = static::_credential()['remember_me_match_ip_mask'];
         if ($this->_received_session_token !== '')
         {
             $session = $this->_find_session_by_token($this->_received_session_token);
@@ -163,7 +164,7 @@ class Credential0implement extends Castle
         )
             return true;
 
-        $this->_log_credential('session_token: ' . $this->_session_token . ' session_id: ' . $this->_session_id . 'ip_address: ' . static::_remote_addr() . 'path: ' . static::_path());
+        $this->_log_credential('session_token: ' . $this->_session_token . ' session_id: ' . $this->_session_id . 'ip_address: ' . static::_remote_addr());
         $this->_session_token = generate_token();
         $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
         $params = [
@@ -206,6 +207,12 @@ class Credential0implement extends Castle
 
     function _check_remember_me() : bool
     {
+        if ($this->_session_token === NULL)
+        {
+            $this->_log_credential('no session token');
+            return false;
+        }
+
         if ($this->_received_remember_me_token === '')
         {
             $this->_log_credential('check remember me failed: no remember me token');
@@ -220,6 +227,19 @@ class Credential0implement extends Castle
         }
         $ip_address = static::_remote_addr();
         $user_agent = static::_user_agent();
+
+        if ($this->_is_ip_addresses_identical($ip_address, $remember_me_info['ip_address'], $this->_remember_me_match_ip_mask) === false)
+        {
+            $this->_log_credential('ip address for remember me is not valid');
+            return false;
+        }
+
+        if ($user_agent !== $remember_me_info['user_agent'])
+        {
+            $this->_log_credential('user_agent for remember me is not valid');
+            return false;
+        }
+
         $this->_store_session(
             [
                 'token' => $this->_session_token,
@@ -247,11 +267,22 @@ class Credential0implement extends Castle
     {
         if ($this->_remember_me_enabled === false)
             return false;
-        if ($this->_user_id === NULL)
+        if ($this->_user_id === NULL or $this->_user_id ===0)
             return false;
         $token = generate_token();
         $this->set_cookie($this->_remember_me_cookie_name, $token, $this->_remember_me_expiration, static::DEFAULT_COOKIE_PATH);
         $this->_store_remember_me($token, $this->_user_id, static::_remote_addr(), static::_user_agent());
+        return true;
+    }
+
+    function dont_remember_me() : bool
+    {
+        if ($this->_remember_me_enabled === false)
+            return false;
+        $this->delete_cookie($this->_remember_me_cookie_name);
+        if ($this->_received_remember_me_token === '')
+            return false;
+        $this->_delete_remember_me_by_token($this->_received_remember_me_token);
         return true;
     }
 
