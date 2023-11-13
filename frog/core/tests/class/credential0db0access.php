@@ -165,6 +165,116 @@ class credential0db0access extends \castle\RfTestCase
         static::_truncate_table('sessions');
     }
 
+    function test_remember_me_3()
+    {
+        static::_truncate_table('remember0me');
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        $credential0implement = \castle\credential();
+
+        $credential0implement->_user_id = 3;
+        $credential0implement->remember_me();
+        global $__cookies;
+        $value = $__cookies['remember_me']['value'];
+
+        $__cookies = [];
+
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+
+        $this->set_global_value('captured_cookie_values', ['remember_me' => $value, 'session_info' => $session_info_cookie_value]);
+        \castle\set_credential(new \castle\Credential0implement());
+
+        $ip_address_2 = '1.0.0.0';
+        $this->set_global_value('remote_addr', $ip_address_2);
+        \castle\set_credential(new \castle\Credential0implement());
+
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_check_remember_me();
+        $this->assertFalse($result);
+    }
+
+    function test_remember_me_4()
+    {
+        static::_truncate_table('remember0me');
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        $credential0implement = \castle\credential();
+
+        $credential0implement->_user_id = 3;
+        $credential0implement->remember_me();
+        global $__cookies;
+        $value = $__cookies['remember_me']['value'];
+
+        $__cookies = [];
+
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+
+        $this->set_global_value('captured_cookie_values', ['remember_me' => $value, 'session_info' => $session_info_cookie_value]);
+        \castle\set_credential(new \castle\Credential0implement());
+
+        $user_agent_2 = 'hoge hoge hoge';
+        $this->set_global_value('user_agent', $user_agent_2);
+        \castle\set_credential(new \castle\Credential0implement());
+
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_check_remember_me();
+        $this->assertFalse($result);
+    }
+
+    function test_dont_remember_me()
+    {
+        static::_truncate_table('remember0me');
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        $credential0implement = \castle\credential();
+
+        $credential0implement->_user_id = 3;
+        $credential0implement->remember_me();
+        global $__cookies;
+        $value = $__cookies['remember_me']['value'];
+
+        $__cookies = [];
+
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+
+        $this->set_global_value('captured_cookie_values', ['remember_me' => $value, 'session_info' => $session_info_cookie_value]);
+        \castle\set_credential(new \castle\Credential0implement());
+
+        $credential0implement = \castle\credential();
+        $credential0implement->dont_remember_me();
+
+        global $__cookies;
+        $this->assertEquals(3600,  time() - $__cookies['remember_me']['expires']);
+
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+        $result = $database0implement->find_by('remember0me', 'id', 1);
+
+        $this->assertEquals(0, count($result));
+
+        static::_truncate_table('remember0me');
+        static::_truncate_table('sessions');
+    }
     public static function _truncate_table(string $table_name) : void
     {
         $sql = <<<EOF
