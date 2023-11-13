@@ -55,8 +55,6 @@ class credential0db0access extends \castle\RfTestCase
         $credential0implement->delete_session_data();
         $result = $credential0implement->_find_session_by_token($new_token);
         $this->assertFalse(isset($result['id']));
-
-        print_r($result);
     }
 
     function test_table_remember_me()
@@ -124,7 +122,6 @@ class credential0db0access extends \castle\RfTestCase
         $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
         $result =$database0implement->find_by('remember0me', 'id', 1);
         $this->assertEquals($send_token, $result[0]['token']);
-        static::_truncate_table('remember0me');
     }
 
     /** @noinspection DuplicatedCode */
@@ -274,6 +271,136 @@ class credential0db0access extends \castle\RfTestCase
 
         static::_truncate_table('remember0me');
         static::_truncate_table('sessions');
+    }
+
+    function test_issue_session_id()
+    {
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+        $cookie_setting = ['session_info'  =>  $session_info_cookie_value];
+        $this->set_global_value('captured_cookie_values', $cookie_setting);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $session_id = $credential0implement->_session_id;
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+        $result = $database0implement->find_by('sessions', 'id', $session_id);
+        $this->assertEquals($ip_address, $result[0]['ip_address']);
+        $this->assertEquals($user_agent, $result[0]['user_agent']);
+    }
+
+    function test_check_session()
+    {
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+        $cookie_setting = ['session_info'  =>  $session_info_cookie_value];
+        $this->set_global_value('captured_cookie_values', $cookie_setting);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $session_id = $credential0implement->_session_id;
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+
+        try {
+            $database0implement->update_by_key('sessions', $session_id, ['is_logged_in' => 1, 'user_id' => 3]);
+        } catch (Throwable $t) {
+            echo 'error' . PHP_EOL;
+            echo $t->getMessage();
+        }
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_check_session();
+        $this->assertTrue($result);
+    }
+
+    function test_check_session_2()
+    {
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+        $cookie_setting = ['session_info'  =>  $session_info_cookie_value];
+        $this->set_global_value('captured_cookie_values', $cookie_setting);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $session_id = $credential0implement->_session_id;
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+
+        try {
+            $database0implement->update_by_key('sessions', $session_id, ['is_logged_in' => 1, 'user_id' => 3]);
+        } catch (Throwable $t) {
+            echo 'error' . PHP_EOL;
+            echo $t->getMessage();
+        }
+        $user_agent = 'hage';
+        $this->set_global_value('user_agent', $user_agent);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_check_session();
+        $this->assertFalse($result);
+    }
+    function test_check_session_3()
+    {
+        static::_truncate_table('sessions');
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $session_info_cookie_value = $__cookies['session_info']['value'];
+        $cookie_setting = ['session_info'  =>  $session_info_cookie_value];
+        $this->set_global_value('captured_cookie_values', $cookie_setting);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $session_id = $credential0implement->_session_id;
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+
+        try {
+            $database0implement->update_by_key('sessions', $session_id, ['is_logged_in' => 1, 'user_id' => 3]);
+        } catch (Throwable $t) {
+            echo 'error' . PHP_EOL;
+            echo $t->getMessage();
+        }
+        $ip_address = '1.0.0.0';
+        $this->set_global_value('remote_addr', $ip_address);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->_check_session();
+        $this->assertFalse($result);
+    }
+
+    function test_clean_up()
+    {
+        static::_truncate_table('sessions');
+        static::_truncate_table('remember0me');
+        static::_truncate_table('users');
     }
     public static function _truncate_table(string $table_name) : void
     {
