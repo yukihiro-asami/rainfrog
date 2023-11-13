@@ -279,6 +279,13 @@ class Credential0implement extends Castle
         return true;
     }
 
+    function delete_remember_me_data() : bool
+    {
+        database_implement(FRG_DB_INSTANCE_PRIMARY)
+            ->delete($this->_remember_me_table_name, 'created_at_int', time() - $this->_session_cookie_expiration_time, '<');
+        return true;
+    }
+
     function _is_ip_addresses_identical(string $ip_address_1, string $is_address_2, int $mask) : bool
     {
         $ip_address_int_1 = ip2long($ip_address_1);
@@ -291,12 +298,6 @@ class Credential0implement extends Castle
         } else {
             return false;
         }
-    }
-
-    function _update_user(int $id, array $fields)
-    {
-        $this->_database0implement
-            ->update_by_key($this->_user_table_name, $id, $fields);
     }
 
     function store_user(array $params) : void
