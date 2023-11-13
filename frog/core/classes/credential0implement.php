@@ -235,7 +235,12 @@ class Credential0implement extends Castle
 
     function get_user_id() : int|bool
     {
-        return is_int($this->_user_id) ? $this->_user_id : false;
+        if (is_int($this->_user_id) and $this->_user_id !== 0)
+        {
+            return $this->_user_id;
+        } else {
+            return false;
+        }
     }
 
     function remember_me() : bool

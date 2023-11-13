@@ -199,4 +199,20 @@ class Test_Class_Credential extends \castle\RfTestCase
         $delete_sec = $__cookies[$cookie_name]['expires'] - time();
         $this->assertEquals(-$credential0implement::COOKIE_DELETE_SEC, $delete_sec);
     }
+
+    function test_get_user_id()
+    {
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->get_user_id();
+        $this->assertFalse($result);
+        $credential0implement->_user_id = 0;
+        $result = $credential0implement->get_user_id();
+        $this->assertFalse($result);
+        $credential0implement->_user_id = 1;
+        $result = $credential0implement->get_user_id();
+        $this->assertEquals(1, $result);
+        $credential0implement->_user_id = 1000;
+        $result = $credential0implement->get_user_id();
+        $this->assertEquals(1000, $result);
+    }
 }
