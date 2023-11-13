@@ -90,6 +90,21 @@ class credential0db0access extends \castle\RfTestCase
         $this->assertFalse(isset($result['id']));
     }
 
+    function test_table_remember_me_2()
+    {
+        static::_truncate_table('remember0me');
+        $credential0implement = \castle\credential();
+        $token = \castle\generate_token();
+        $user_id = 1;
+        $ip_address = '111,111,111,111';
+        $user_agent = 'hoge hoge hoge';
+        $credential0implement->_store_remember_me($token, $user_id, $ip_address, $user_agent);
+        $result = $credential0implement->_find_remember_me_by_token($token);
+        $this->assertTrue(isset($result['id']));
+        $credential0implement->_delete_remember_me_by_token($token);
+        $result_new = $credential0implement->_find_remember_me_by_token($token);
+        $this->assertFalse(isset($result_new['id']));
+    }
     public static function _truncate_table(string $table_name) : void
     {
         $sql = <<<EOF

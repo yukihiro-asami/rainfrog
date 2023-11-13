@@ -279,6 +279,13 @@ class Credential0implement extends Castle
         return true;
     }
 
+    function _delete_remember_me_by_token(string $token) : bool
+    {
+        database_implement(FRG_DB_INSTANCE_PRIMARY)
+            ->delete($this->_remember_me_table_name, 'token', $token, '=');
+        return true;
+    }
+
     function delete_remember_me_data() : bool
     {
         database_implement(FRG_DB_INSTANCE_PRIMARY)
