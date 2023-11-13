@@ -167,9 +167,13 @@ class Credential0implement extends Castle
         $this->_log_credential('session_token: ' . $this->_session_token . ' session_id: ' . $this->_session_id . 'ip_address: ' . static::_remote_addr());
         $this->_session_token = generate_token();
         $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
+        $ip_address = static::_remote_addr();
+        $user_agent = static::_user_agent();
         $params = [
             'token' => $this->_session_token,
-            'rotated_at' => time()
+            'rotated_at' => time(),
+            'user_agent' => $user_agent,
+            'ip_address' => $ip_address
         ];
         $this->_store_session($params);
 
@@ -201,6 +205,7 @@ class Credential0implement extends Castle
     function _check_session() : bool
     {
         return is_int($this->_user_id)
+            AND $this->_user_id !== 0
             AND static::_user_agent() === $this->_user_agent_must_be
             AND $this->_is_ip_addresses_identical(static::_remote_addr(), $this->_ip_address_must_be, $this->_session_ip_mask);
     }
