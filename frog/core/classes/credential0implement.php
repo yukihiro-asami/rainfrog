@@ -87,6 +87,11 @@ class Credential0implement extends Castle
 
     function login(string $user_name = '', string $password = '') : bool
     {
+        if ($this->_session_token === NULL)
+        {
+            static::_log_info('no session token cookie');
+            return false;
+        }
         $user = $this->validate_user($user_name, $password);
         if ($user === false)
         {
