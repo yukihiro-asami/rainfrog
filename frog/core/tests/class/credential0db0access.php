@@ -494,6 +494,104 @@ class credential0db0access extends \castle\RfTestCase
         $result = $credential0implement->check();
         $this->assertFalse($result);
     }
+
+    function test_validate_user()
+    {
+        static::_truncate_table('users');
+        $credential0implement = \castle\credential();
+        $user_name = 'hoge1';
+        $password = 'hagehoge12';
+        $user_data = [
+            'name'  => $user_name,
+            'password_hash'  => $credential0implement->password_hash($password)
+        ];
+        $credential0implement = \castle\credential();
+        $credential0implement->store_user($user_data);
+        $result = $credential0implement->validate_user($user_name, $password);
+        $this->assertTrue(is_array($result));
+    }
+
+    function test_login()
+    {
+        static::_truncate_table('users');
+        static::_truncate_table('sessions');
+        $credential0implement = \castle\credential();
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        $user_name = 'hoge1';
+        $password = 'hagehoge12';
+        $user_data = [
+            'name'  => $user_name,
+            'password_hash'  => $credential0implement->password_hash($password)
+        ];
+        $credential0implement = \castle\credential();
+        $credential0implement->store_user($user_data);
+        $result = $credential0implement->login($user_name . 'hoge', $password);
+        $this->assertFalse($result);
+        $result = $credential0implement->login($user_name, $password);
+        $this->assertFalse($result);
+
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $cookie_value =  $__cookies['session_info']['value'];
+        $this->set_global_value('captured_cookie_values', ['session_info' => $cookie_value]);
+
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $result = $credential0implement->login($user_name, $password);
+        $this->assertTrue($result);
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+        $data = $database0implement->find_by('sessions', 'id', 1);
+        $this->assertEquals(1, $data[0]['is_logged_in']);
+        $this->assertEquals(1, $data[0]['user_id']);
+        $credential0implement->logout();
+        $database0implement = \castle\database_implement(FRG_DB_INSTANCE_PRIMARY);
+        $data = $database0implement->find_by('sessions', 'id', 1);
+        $this->assertEquals(0, $data[0]['is_logged_in']);
+        $this->assertEquals(0, $data[0]['user_id']);
+    }
+
+    function test_constructor()
+    {
+        static::_truncate_table('users');
+        static::_truncate_table('sessions');
+        $credential0implement = \castle\credential();
+        $user_agent = 'hage hoge fuga';
+        $ip_address = '1.2.3.4';
+        $this->set_global_value('user_agent', $user_agent);
+        $this->set_global_value('remote_addr', $ip_address);
+        $user_name = 'hoge1';
+        $password = 'hagehoge12';
+        $user_data = [
+            'name'  => $user_name,
+            'password_hash'  => $credential0implement->password_hash($password)
+        ];
+        $credential0implement->store_user($user_data);
+        $credential0implement->issue_session_id();
+
+        global $__cookies;
+        $cookie_value =  $__cookies['session_info']['value'];
+        $this->set_global_value('captured_cookie_values', ['session_info' => $cookie_value]);
+
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $this->assertEquals(NULL, $credential0implement->_user_id);
+
+
+        $credential0implement->login($user_name, $password);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+        $this->assertEquals(1, $credential0implement->_user_id);
+
+        $credential0implement->logout($user_name, $password);
+        \castle\set_credential(new \castle\Credential0implement());
+        $credential0implement = \castle\credential();
+
+        $this->assertEquals(NULL, $credential0implement->_user_id);
+    }
     function test_clean_up()
     {
         static::_truncate_table('sessions');
