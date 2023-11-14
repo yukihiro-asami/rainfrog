@@ -2,6 +2,11 @@
 namespace castle;
 return function (array &$vals) : string
 {
+    $class_name = 'RfTestCase';
+    $base_path =& $vals['core_classes_dir'];
+    $path = mb_strtolower(str_replace('_', '/', $class_name));
+    include($base_path . $path . '.php');
+    class_alias('\\castle\\' . ucfirst($class_name), '\\' . ucfirst($class_name));
     $vals['phpunit_env_setting_file_path'] = $vals['base_dir'] . 'app/tests/phpunit.json';
     $vals['phpunit_env_setting_json'] = file_get_contents($vals['phpunit_env_setting_file_path']);
     $vals['phpunit_env_setting_array'] =json_decode($vals['phpunit_env_setting_json'], true);
