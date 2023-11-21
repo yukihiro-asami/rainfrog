@@ -4,8 +4,8 @@ class Response extends \castle\Response {};
 class Controller extends \castle\Controller {};
 class Cookie extends \castle\Cookie {};
 class View extends \castle\View {};
-class Testcase extends \castle\RfTestCase {}
+class RfTestCase extends \castle\RfTestCase {}
 class DB extends \castle\DB {};
 class Input extends \castle\Input {};
 class Table extends \castle\Table{}
-class log extends \castle\log{}
+class Log extends \castle\Log{}
