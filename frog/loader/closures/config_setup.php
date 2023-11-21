@@ -13,6 +13,7 @@ return function (array &$vals) : string
     }
     $vals['captured_config'] = $config;
     $vals['log_file_path'] = $config['castle']['log_file_path'];
+    $vals['is_syslog_enabled'] = $config['castle']['is_syslog_enabled'];
     $vals['routes'] = $config['routes'] ?? [];
     $vals['dbs'] = $config['dbs'] ?? [];
     $vals['cookie_setting'] = $config['cookie'] ?? [];

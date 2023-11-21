@@ -22,6 +22,11 @@ return function (array &$vals) : string
     $vals['http_headers'] = $__headers;
     $vals['mode'] = $__mode;
     $vals['end_with'] = "store_syslog";
-    file_put_contents($vals['syslog_dir']  . $vals['syslog_id'] . '.json', json_encode($vals, JSON_PRETTY_PRINT));
+    if ($vals['is_syslog_enabled'])
+    {
+        file_put_contents($vals['syslog_dir']  . $vals['syslog_id'] . '.json', json_encode($vals, JSON_PRETTY_PRINT));
+        if ($__mode === FRG_MODE_TASK)
+            echo 'syslog path: ' . '"' . $vals['syslog_dir']  . $vals['syslog_id'] . '.json"' . PHP_EOL;
+    }
     return 'success';
 };
