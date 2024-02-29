@@ -23,4 +23,18 @@ class Input extends Castle
     {
         return static::_path();
     }
+
+    static public function server(string $index = null) : string|array
+    {
+        $server = static::_value('captured_server_value');
+        if ($index === null)
+        {
+            return $server;
+        }
+        if (array_key_exists($index, $server) === false)
+        {
+            return '';
+        }
+        return $server[$index];
+    }
 }
