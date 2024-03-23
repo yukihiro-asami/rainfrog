@@ -11,6 +11,19 @@ return function (array &$vals) : string
             $path_processed_alias = $path;
     }
     $vals['path_processed_alias'] = $path_processed_alias;
+    if ($vals['is_cms_mode'] === true AND array_key_exists($vals['routes'], $vals['path']) === false)
+    {
+        $is_ignore = false;
+        foreach ($vals['cms_mode_ignore'] AS $pattern)
+        {
+            if ((bool) preg_match($pattern, $path_processed_alias) === true)
+            {
+                $is_ignore = true;
+            }
+        }
+        if ($is_ignore === false)
+            $path_processed_alias = $vals['cms_path'] . urlencode($vals['path']);
+    }
     $path_array = explode('/', ltrim($path_processed_alias, '/'));
     array_unshift($path_array, 'controller');
     $vals['controller_array'] = $path_array;
