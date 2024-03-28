@@ -24,6 +24,11 @@ class Input extends Castle
         return static::_path();
     }
 
+    static public function header() : array
+    {
+        return static::_value('captured_raw_header');
+    }
+
     static public function server(string $index = null) : string|array
     {
         $server = static::_value('captured_server_value');
