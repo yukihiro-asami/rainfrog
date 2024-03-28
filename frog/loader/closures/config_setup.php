@@ -14,6 +14,8 @@ return function (array &$vals) : string
     $vals['captured_config'] = $config;
     $vals['log_file_path'] = $config['castle']['log_file_path'];
     $vals['is_cms_mode'] = $config['castle']['is_cms_mode'] ?? false;
+    $vals['cms_mode_ignore'] = $config['castle']['cms_mode_ignore'] ?? false;
+    $vals['cms_path'] = $config['castle']['cms_path'] ?? '/path';
     $vals['is_syslog_enabled'] = $config['castle']['is_syslog_enabled'];
     $vals['routes'] = $config['routes'] ?? [];
     $vals['dbs'] = $config['dbs'] ?? [];

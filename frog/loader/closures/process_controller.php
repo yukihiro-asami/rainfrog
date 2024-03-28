@@ -2,29 +2,30 @@
 namespace castle;
 use Throwable;
 
-return function (array &$vals) : string
-{
-    $path_processed_alias = $vals['path'];
-    foreach ($vals['routes'] as $alias => $path)
-    {
-        if ($alias === $path_processed_alias)
-            $path_processed_alias = $path;
+return function (array &$vals) : string {
+    $path_routes_processing = $vals['path'];
+    foreach ($vals['routes'] as $alias => $path) {
+        if ($alias === $path_routes_processing)
+            $path_routes_processing = $path;
     }
-    $vals['path_processed_alias'] = $path_processed_alias;
-    if ($vals['is_cms_mode'] === true AND array_key_exists($vals['routes'], $vals['path']) === false)
-    {
+    $vals['path_routes_processed'] = $path_routes_processing;
+    if ($vals['is_cms_mode'] === true) {
         $is_ignore = false;
-        foreach ($vals['cms_mode_ignore'] AS $pattern)
-        {
-            if ((bool) preg_match($pattern, $path_processed_alias) === true)
-            {
+        foreach ($vals['cms_mode_ignore'] as $pattern) {
+            if ((bool)preg_match($pattern, $vals['path_routes_processed']) === true) {
                 $is_ignore = true;
             }
         }
         if ($is_ignore === false)
-            $path_processed_alias = $vals['cms_path'] . urlencode($vals['path']);
+        {
+            $vals['path_processed'] = $vals['cms_path'] . '/' . urlencode($vals['path_routes_processed']);
+        } else {
+            $vals['path_processed'] = $vals['path_routes_processed'];
+        }
+    } else {
+        $vals['path_processed'] = $vals['path_routes_processed'];
     }
-    $path_array = explode('/', ltrim($path_processed_alias, '/'));
+    $path_array = explode('/', ltrim($vals['path_processed'], '/'));
     array_unshift($path_array, 'controller');
     $vals['controller_array'] = $path_array;
     $vals['controller_path'] = $vals['app_classes_dir'] . implode('/', $path_array) . '.php';
