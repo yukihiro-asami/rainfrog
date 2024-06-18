@@ -1,5 +1,0 @@
-/.idea/*
-/frog/phpunit-9.5.phar
-/frog/loader/syslog/
-/frog/app/config/
-/frog/core/tests/not0versioned.php
