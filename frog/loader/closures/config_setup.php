@@ -17,6 +17,7 @@ return function (array &$vals) : string
     $vals['cms_mode_ignore'] = $config['castle']['cms_mode_ignore'] ?? false;
     $vals['cms_path'] = $config['castle']['cms_path'] ?? '/path';
     $vals['is_syslog_enabled'] = $config['castle']['is_syslog_enabled'];
+    $vals['is_db_log_enabled'] = $config['castle']['is_db_log_enabled'] ?? true;
     $vals['routes'] = $config['routes'] ?? [];
     $vals['dbs'] = $config['dbs'] ?? [];
     $vals['cookie_setting'] = $config['cookie'] ?? [];

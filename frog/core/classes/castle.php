@@ -89,6 +89,11 @@ class Castle
         return static::_value(__FUNCTION__);
     }
 
+    protected static function _is_db_log_enabled(): bool
+    {
+        return static::_value(__FUNCTION__);
+    }
+
     protected static function _value(string $key_or_file_name) : string|array
     {
         $key = str_starts_with($key_or_file_name, '_') === true ? substr($key_or_file_name, 1) : $key_or_file_name;

@@ -23,7 +23,6 @@ $__db_logs = [];
 
 foreach (explode(PHP_EOL, $commands) as $command)
 {
-    /** @noinspection PhpIncludeInspection */
     $closure = include('closures/' . $command . '.php');
     $__results[$command] = $closure($__vals);
 }

@@ -18,6 +18,10 @@ abstract class Database0implement extends Castle
 
     function _log_and_init_params_and_query() : void
     {
+        if (static::_is_db_log_enabled() === false)
+        {
+            return;
+        }
         /** @noinspection DuplicatedCode */
         store_database_log(
             $this->_database_index,
