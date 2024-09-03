@@ -1,5 +1,5 @@
 <?php
-class Tests_Castle extends TestCase
+class Tests_Castle extends RfTestCase
 {
     public function test_hoge1()
     {

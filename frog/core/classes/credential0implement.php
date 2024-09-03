@@ -31,6 +31,7 @@ class Credential0implement extends Castle
     public ?string $_session_token = NULL;
     public ?string $_ip_address_must_be = NULL;
     public ?string $_user_agent_must_be = NULL;
+    public bool $_is_matched_with_previous_token = false;
     public ?string $_received_remember_me_token = NULL;
     public string $_anti_csrf_token_salt;
     public int $_anti_csrf_token_expire;
@@ -68,15 +69,13 @@ class Credential0implement extends Castle
                     $this->_user_id = (int) $session['user_id'];
                 if (time() > (int) $session['rotated_at'] + $this->_session_rotation_time)
                 {
-                    $this->_session_token = generate_token();
-                    $params = [
-                        'token' => $this->_session_token,
-                        'rotated_at' => time()
-                    ];
-                    $this->_update_session($this->_session_id, $params);
-                    $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
+                    $this->rotate();
                 } else {
                     $this->_session_token = $this->_received_session_token;
+                }
+                if ($this->_is_matched_with_previous_token === true)
+                {
+                    $this->set_cookie($this->_session_cookie_name, $session['token']);
                 }
             }
         }
@@ -146,6 +145,18 @@ class Credential0implement extends Castle
             return true;
         $this->_log_credential('check remember me failed');
         return false;
+    }
+
+    function rotate(): void
+    {
+        $this->_session_token = generate_token();
+        $params = [
+            'token' => $this->_session_token,
+            'previous_token' => $this->_received_session_token,
+            'rotated_at' => time()
+        ];
+        $this->_update_session($this->_session_id, $params);
+        $this->set_cookie($this->_session_cookie_name, $this->_session_token, $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
     }
 
     function anti_csrf_token() : string
@@ -371,11 +382,22 @@ class Credential0implement extends Castle
 
     function _find_session_by_token(string $session_token) : array
     {
-        return database_implement(FRG_DB_INSTANCE_PRIMARY)
+        $session = database_implement(FRG_DB_INSTANCE_PRIMARY)
             ->find_one_by($this->_session_table_name, 'token', $session_token);
+        if (array_key_exists('id', $session) === true)
+        {
+            return $session;
+        }
+        $session_previous = database_implement(FRG_DB_INSTANCE_PRIMARY)
+            ->find_one_by($this->_session_table_name, 'previous_token', $session_token);
+        if (array_key_exists('id', $session_previous) === true)
+        {
+            $this->_is_matched_with_previous_token = true;
+        }
+        return $session_previous;
     }
 
-    function _update_session(int $id, array $fields)
+    function _update_session(int $id, array $fields): void
     {
         $this->_database0implement
             ->update_by_key($this->_session_table_name, $id, $fields);
