@@ -47,6 +47,11 @@ class Auth extends Castle
         static::_credential_implement()->store_user($params);
     }
 
+    static function  session_id():int
+    {
+        return static::_credential_implement()->get_session_id();
+    }
+
     static function password_hash(string $password) : string|bool
     {
         return static::_credential_implement()->password_hash($password);

@@ -192,7 +192,7 @@ class Credential0implement extends Castle
             'ip_address' => $ip_address
         ];
         $this->_store_session($params);
-
+        $this->_session_id = (int) $this->_database0implement->find_one_by($this->_session_table_name, 'token', $this->_session_token)['token'];
         return true;
     }
 
@@ -327,6 +327,11 @@ class Credential0implement extends Castle
     {
         store_cookie($cookie_name, '', time() - static::COOKIE_DELETE_SEC);
         return true;
+    }
+
+    function get_session_id()
+    {
+        return $this->_session_id;
     }
 
     function delete_session_data() : bool

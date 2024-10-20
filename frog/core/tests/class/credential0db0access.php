@@ -125,7 +125,6 @@ class credential0db0access extends \castle\RfTestCase
         $this->assertEquals($send_token, $result[0]['token']);
     }
 
-    /** @noinspection DuplicatedCode */
     function test_remember_me_2()
     {
         static::_truncate_table('remember0me');
@@ -462,7 +461,6 @@ class credential0db0access extends \castle\RfTestCase
         $this->assertEquals(3, $data[0]['user_id']);
         print_r($data);
     }
-
     function test_check_3()
     {
         static::_truncate_table('remember0me');
@@ -513,6 +511,7 @@ class credential0db0access extends \castle\RfTestCase
 
     function test_login()
     {
+        \castle\set_credential(new \castle\Credential0implement());
         static::_truncate_table('users');
         static::_truncate_table('sessions');
         $credential0implement = \castle\credential();
@@ -526,6 +525,7 @@ class credential0db0access extends \castle\RfTestCase
             'name'  => $user_name,
             'password_hash'  => $credential0implement->password_hash($password)
         ];
+
         $credential0implement = \castle\credential();
         $credential0implement->store_user($user_data);
         $result = $credential0implement->login($user_name . 'hoge', $password);
@@ -553,7 +553,6 @@ class credential0db0access extends \castle\RfTestCase
         $this->assertEquals(0, $data[0]['is_logged_in']);
         $this->assertEquals(0, $data[0]['user_id']);
     }
-
     function test_constructor()
     {
         static::_truncate_table('users');
