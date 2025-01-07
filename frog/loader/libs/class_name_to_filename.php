@@ -4,9 +4,6 @@ function class_name_to_filename(string $class_name) : string
 {
     return implode(
         DIRECTORY_SEPARATOR,
-        array_map(
-            'mb_strtolower',
-            explode('_', $class_name)
-        )
+        array_slice(explode('\\', $class_name), 1)
     ) . '.php';
 }
