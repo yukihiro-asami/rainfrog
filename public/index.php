@@ -1,3 +1,3 @@
 <?php
-/* rainfrog version 1.3 */
+/* rainfrog version 2.0 */
 include_once('../frog/loader/web.php');

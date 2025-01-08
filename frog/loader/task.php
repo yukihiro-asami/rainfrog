@@ -5,6 +5,7 @@ get_syslog_id
 capture_dir
 config_setup
 set_up_core_classes
+set_up_middleware
 register_app_auto_loader
 set_up_database
 execute_task

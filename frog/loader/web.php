@@ -11,6 +11,7 @@ process_request_uri
 capture_php_input
 process_params
 set_up_core_classes
+set_up_middleware
 register_app_auto_loader
 process_cookie
 set_up_database

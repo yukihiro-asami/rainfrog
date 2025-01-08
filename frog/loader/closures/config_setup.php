@@ -23,5 +23,6 @@ return function (array &$vals) : string
     $vals['cookie_setting'] = $config['cookie'] ?? [];
     $vals['credential'] = $config['credential'] ?? [];
     $vals['upload'] = $config['upload'] ?? [];
+    $vals['middleware'] = $config['middleware'] ?? [];
     return 'success';
 };
