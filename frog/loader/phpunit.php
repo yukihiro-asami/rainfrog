@@ -28,5 +28,4 @@ foreach (explode(PHP_EOL, $commands) as $command)
     $closure = include('closures/' . $command . '.php');
     $__results[$command] = $closure($__vals);
 }
-/** @noinspection PhpIgnoredClassAliasDeclaration */
 class_alias('PHPUnit\Framework\TestCase', 'TestCase');
