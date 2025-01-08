@@ -38,7 +38,12 @@ class Table extends Castle
         {
             return static::$_table_name;
         }
-        return mb_strtolower(end_of_array(explode('_', get_called_class())));
+        $class_name = end_of_array(explode('_', get_called_class()));
+        return self::_convert_to_snake_case($class_name);
     }
-
+    public static function _convert_to_snake_case(string $class_name): string
+    {
+        $converted_string = preg_replace('/(?<!^)([A-Z])/', '_$1', $class_name);
+        return strtolower($converted_string);
+    }
 }

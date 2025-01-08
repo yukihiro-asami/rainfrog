@@ -4,7 +4,7 @@
 
 use function castle\database_implement;
 
-class Test_Class_Table extends TestCase
+class Test_Class_Table extends RfTestCase
 {
     function test_1()
     {
@@ -109,4 +109,10 @@ EOF;
         DB::query($sql)->execute();
     }
 
+    function testSnakeCase()
+    {
+        $class_name = 'StudyCaseClassName';
+        $result = Table::_convert_to_snake_case($class_name);
+        $this->assertEquals('study_case_class_name', $result);
+    }
 }
