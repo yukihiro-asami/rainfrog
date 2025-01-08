@@ -9,7 +9,7 @@ return function (array &$vals) : string
         'pdo_mariadb'  => 'Database0implement_PDO_Mariadb',
         'pdo_mysql'  => 'Database0implement_PDO_Mysql'
     ];
-    foreach ([FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_SECONDARY, FRG_DB_INSTANCE_TERTIARY, FRG_DB_INSTANCE_QUATERNARY] as $db_instance_id)
+    foreach (range(FRG_DB_INSTANCE_PRIMARY, FRG_DB_INSTANCE_8TH) as $db_instance_id)
     {
         if (isset($vals['dbs'][$db_instance_id]) === false)
         {

@@ -16,6 +16,10 @@ namespace
     const FRG_DB_INSTANCE_SECONDARY = 1;
     const FRG_DB_INSTANCE_TERTIARY = 2;
     const FRG_DB_INSTANCE_QUATERNARY = 3;
+    const FRG_DB_INSTANCE_5TH = 4;
+    const FRG_DB_INSTANCE_6TH = 5;
+    const FRG_DB_INSTANCE_7TH = 6;
+    const FRG_DB_INSTANCE_8TH = 7;
     const FRG_EXCEPTION_CODE_HTTP_NOT_FOUND = 'FRG_EXCEPTION_CODE_HTTP_NOT_FOUND';
     const FRG_ENV_DEVELOPMENT = 'development';
     const FRG_ENV_TEST = 'test';
