@@ -2,25 +2,9 @@
 namespace castle;
 class Castle
 {
-    static protected function _log_info(\Throwable|string $message) : void
+    static protected function _log(\Stringable|string $message, string $label) : void
     {
-        static::_log($message, '__INFO__');
-    }
-
-    static protected function _log_error(\Throwable|string $message) : void
-    {
-        static::_log($message, '__ERROR__');
-    }
-
-    static protected function _log(\Throwable|string $message, string $label) : void
-    {
-        if ($message instanceof \Throwable)
-        {
-            $logging_message = $message->getMessage() . ' s_id:' . static::_value('syslog_id') . PHP_EOL
-            . 'thrown at file ' . $message->getFile() . ' at line ' . $message->getLine() . PHP_EOL;
-        } else {
-            $logging_message = $message . ' s_id:' . static::_value('syslog_id') . PHP_EOL;
-        }
+        $logging_message = $message . ' s_id:' . static::_value('syslog_id') . PHP_EOL;
         \castle\log(\castle\date_formatted() . ' '. $label . ' ' . $logging_message, static::_value('_log_file_path'));
     }
 

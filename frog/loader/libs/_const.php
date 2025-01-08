@@ -26,6 +26,14 @@ namespace
     const FRG_MODE_PHPUNIT = 'phpunit';
     const FRG_MODE_TASK = 'task';
     const FRG_MODE_WEB = 'web';
+    const FRG_LOG_LEVEL_EMERGENCY = 0;
+    const FRG_LOG_LEVEL_ALERT = 1;
+    const FRG_LOG_LEVEL_CRITICAL = 2;
+    const FRG_LOG_LEVEL_ERROR = 3;
+    const FRG_LOG_LEVEL_WARNING = 4;
+    const FRG_LOG_LEVEL_NOTICE = 5;
+    const FRG_LOG_LEVEL_INFO = 6;
+    const FRG_LOG_LEVEL_DEBUG = 7;
 }
 namespace castle
 {
