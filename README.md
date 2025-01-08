@@ -4,9 +4,9 @@ Rainfrog は、PHP 8.1 以上に対応した軽量かつ強力なフレームワ
 
 Rainfrog is a simple and efficient web application platform designed to provide a lightweight yet powerful framework for PHP 8.1 and above. It is specifically crafted to maximize performance and simplicity, seamlessly integrating with NGINX. Rainfrog offers an API inspired by FuelPHP, allowing developers familiar with that framework to quickly adapt.
 
-現在より広い人たちに使っていただくために、次期バージョンの Rainfrog2 の開発を行っています。PSR への対応、ドメイン駆動指向のミドルウェアなどを追加します。
+現在より広い人たちに使っていただくために、次期バージョンの Rainfrog2(branch: Rainfrog-2) の開発を行っています。PSR への対応、ドメイン駆動指向のミドルウェアなどを追加します。
 
-To reach a wider audience, we are developing the next version, Rainfrog2. It will include support for PSR standards and middleware designed with a domain-driven approach.
+To reach a wider audience, we are developing the next version, Rainfrog2(branch: Rainfrog-2). It will include support for PSR standards and middleware designed with a domain-driven approach.
 
 ## 主な特徴 / Key Features
 - **軽量設計**: パフォーマンスと簡潔さを追求し、現代のウェブアプリケーションに最適。
