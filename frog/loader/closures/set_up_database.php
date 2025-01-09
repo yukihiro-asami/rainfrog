@@ -21,5 +21,7 @@ return function (array &$vals) : string
         $obj->set_database_index($db_instance_id);
         set_database($obj);
     }
+    $table_content_manager = new $vals['table_content_manager']();
+    set_table_constraints_manager($table_content_manager);
     return 'success';
 };

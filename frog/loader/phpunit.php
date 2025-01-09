@@ -23,6 +23,7 @@ $__cookies = [];
 $__dbs = [];
 $__db_logs = [];
 $__credential = NULL;
+$__table_constraints_manager = NULL;
 foreach (explode(PHP_EOL, $commands) as $command)
 {
     $closure = include('closures/' . $command . '.php');

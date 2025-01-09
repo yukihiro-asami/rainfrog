@@ -24,5 +24,6 @@ return function (array &$vals) : string
     $vals['credential'] = $config['credential'] ?? [];
     $vals['upload'] = $config['upload'] ?? [];
     $vals['middleware'] = $config['middleware'] ?? [];
+    $vals['table_constraints_manager'] = $config['table_constraints_manager']['class_name'] ?? [];
     return 'success';
 };
