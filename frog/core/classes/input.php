@@ -7,7 +7,7 @@ class Input extends Castle
         return static::_remote_addr();
     }
 
-    static public function user_agent() : string
+    static public function userAgent() : string
     {
         return static::_user_agent();
     }

@@ -16,11 +16,11 @@ class Upload extends Castle
                 store_upload_file($file['name'], $config_settings['path'], $saved_as);
             }
         } catch (\Throwable $t) {
-            self::_log_info($t->getTraceAsString());
+            self::_log($t->getTraceAsString(), FRG_LOG_LEVEL_INFO);
         }
     }
 
-    static public function is_valid() : bool
+    static public function isValid() : bool
     {
         return count(upload_files()) > 0;
     }
@@ -33,7 +33,7 @@ class Upload extends Castle
         return [$saved_to, $saved_as];
     }
 
-    static public function get_files(int $index) : array
+    static public function getFiles(int $index) : array
     {
         return upload_files()[$index];
     }

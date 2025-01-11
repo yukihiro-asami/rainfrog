@@ -19,7 +19,7 @@ class DB extends Castle
         return $instance;
     }
 
-    function _set_query($sql)
+    function _set_query($sql): void
     {
         $this->_db->query($sql);
     }
@@ -56,17 +56,17 @@ class DB extends Castle
         return $db_instance->quote($string);
     }
 
-    static function start_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
+    static function startTransaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->start_transaction();
     }
 
-    static function commit_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
+    static function commitTransaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->commit_transaction();
     }
 
-    static function rollback_transaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
+    static function rollbackTransaction(int $database_index = FRG_DB_INSTANCE_PRIMARY): bool
     {
         return static::_db_instance($database_index)->rollback_transaction();
     }
