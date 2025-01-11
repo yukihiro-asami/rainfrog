@@ -23,7 +23,7 @@ class View extends Castle
             return $this;
         }
     }
-    function file_path($filename) : View|string
+    function filePath($filename) : View|string
     {
         if ($filename === NULL)
         {

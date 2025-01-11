@@ -42,7 +42,7 @@ class Response extends Castle
         }
     }
 
-    public function set_status(int $status = 200) : Response
+    public function setStatus(int $status = 200) : Response
     {
         set_status($status);
         return $this;

@@ -17,42 +17,42 @@ class Auth extends Castle
         return static::_credential_implement()->check();
     }
 
-    static function get_user_id() : int|bool
+    static function getUserId() : int|bool
     {
         return static::_credential_implement()->get_user_id();
     }
 
-    static function anti_csrf_token() :string
+    static function antiCsrfToken() :string
     {
         return static::_credential_implement()->anti_csrf_token();
     }
 
-    static function validate_anti_csrf_token(string $token) : bool
+    static function validateAntiCsrfToken(string $token) : bool
     {
         return static::_credential_implement()->validate_anti_csrf_token($token);
     }
 
-    static function issue_session_id() : bool
+    static function issueSessionId() : bool
     {
         return static::_credential_implement()->issue_session_id();
     }
 
-    static function delete_session_data() : bool
+    static function deleteSessionData() : bool
     {
         return static::_credential_implement()->delete_session_data();
     }
 
-    static function store_user(array $params) : void
+    static function storeUser(array $params) : void
     {
         static::_credential_implement()->store_user($params);
     }
 
-    static function  session_id():int
+    static function  sessionId():int
     {
         return static::_credential_implement()->get_session_id();
     }
 
-    static function password_hash(string $password) : string|bool
+    static function passwordHash(string $password) : string|bool
     {
         return static::_credential_implement()->password_hash($password);
     }

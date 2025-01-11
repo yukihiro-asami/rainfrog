@@ -4,19 +4,19 @@ use \PHPUnit\Framework\TestCase;
 class RfTestCase extends TestCase
 {
 
-    static function set_global_value(string $key, mixed $value) : void
+    static function setGlobalValue(string $key, mixed $value): void
     {
         global $__vals;
         $__vals[$key] = $value;
     }
 
-    static function get_global_value(string $key) : mixed
+    static function getGlobalValue(string $key): string|array
     {
         global $__vals;
         return $__vals[$key];
     }
 
-    static function store_syslog()
+    static function storeSyslog(): void
     {
         global $__vals;
         file_put_contents($__vals['syslog_dir'] . $__vals['syslog_id'] . '.json', json_encode($__vals, JSON_PRETTY_PRINT));
