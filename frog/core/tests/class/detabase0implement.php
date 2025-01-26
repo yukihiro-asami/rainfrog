@@ -2,7 +2,7 @@
 
 use function castle\database_implement;
 
-class Test_Class_Database0implement extends TestCase
+class Test_Class_Database0implement extends RfTestCase
 {
 
     function test_primary()
