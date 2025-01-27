@@ -2,6 +2,11 @@
 namespace castle;
 class Castle
 {
+
+    static protected function _log_info(\Stringable|string $message) : void
+    {
+        static::_log($message, '__INFO__');
+    }
     static protected function _log(\Stringable|string $message, string $label) : void
     {
         $logging_message = $message . ' s_id:' . static::_value('syslog_id') . PHP_EOL;

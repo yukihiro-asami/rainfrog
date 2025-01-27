@@ -4,7 +4,7 @@
 
 use function castle\database_implement;
 
-class Test_Class_DB extends TestCase
+class Test_Class_DB extends RfTestCase
 {
 
     function test_primary()
@@ -137,7 +137,7 @@ EOF;
 
             DB::query($sql)->execute();
 
-            DB::start_transaction();
+            DB::startTransaction();
 
             $sql = <<<EOF
             UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
@@ -145,37 +145,15 @@ EOF;
             DB::query($sql)
                 ->execute();
 
-            DB::rollback_transaction();
-
+            DB::rollbackTransaction();
+            $database0implement = database_implement(FRG_DB_INSTANCE_PRIMARY);
+            $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
+            $this->assertEquals(144, $result);
             $sql = <<<EOF
-            UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
-            EOF;
-            $actual = DB::query($sql)
-                ->execute();
-
-/*
-        $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
-        $this->assertEquals(144, $result);
-        /*
-                $database0implement->start_transaction();
-                $sql = <<<EOF
-        UPDATE `TRADESYSTEM`.`users` SET `field_int` = 100 WHERE field_char = 'key1';
-        INSERT `TRADESYSTEM`.`order` SET `field_char` = 'key1', `field_int` = 44;
-        EOF;
-                $database0implement->query($sql)
-                    ->execute();
-                $database0implement->commit_transaction();
-                $result = $database0implement->find_one_by('users', 'field_char', 'key1')['field_int'];
-                $this->assertEquals(100, $result);
-
-                $result = $database0implement->find_one_by('order', 'field_char', 'key1')['field_int'];
-                $this->assertEquals(44, $result);
-
-                $sql = <<<EOF
         DROP TABLE IF EXISTS `users`;
         DROP TABLE IF EXISTS `order`;
         EOF;
-                $database0implement->query($sql)->execute();*/
+            $database0implement->query($sql)->execute();
 
     }
 }
