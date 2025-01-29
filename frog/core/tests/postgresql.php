@@ -4,7 +4,7 @@ class Test_Postgresql extends RfTestCase
 
     function testFirst()
     {
-        $connection = 'pgsql:host=localhost;port=5432;dbname=tradesystem;user=postgres;password=R53pmnE3rPRPtAfY';
+        $connection = 'pgsql:host=localhost;port=5432;dbname=rainfrog;user=postgres;password=0HJZBK2VsFce4tDV';
         $sql = 'SELECT 1';
         $dbh = new PDO($connection);
         $sth = $dbh->prepare($sql);
