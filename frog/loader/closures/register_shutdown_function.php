@@ -12,7 +12,14 @@ return function (array &$vals) : string
             send_headers();
             array_map(
                 function ($cookie_name, $cookie_values) use ($vals) {
-                    setcookie($cookie_name, $cookie_values['value'], $cookie_values['expires'], $cookie_values['path'], $cookie_values['domain']);
+                    setcookie($cookie_name, $cookie_values['value'], [
+                        'expires'  => $cookie_values['expires'],
+                        'path'     => $cookie_values['path'],
+                        'domain'   => $cookie_values['domain'],
+                        'secure'   => true,
+                        'httponly' => true,
+                        'samesite' => 'Lax',
+                    ]);
                 },
                 array_keys($__cookies),
                 array_values($__cookies)
