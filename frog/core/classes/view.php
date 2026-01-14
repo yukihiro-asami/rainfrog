@@ -4,12 +4,12 @@ class View extends Castle
 {
     protected string $_filename;
     protected array $_data;
-    function __construct(string $filename = null, array $data = [])
+    function __construct(?string $filename = null, array $data = [])
     {
         $this->_filename = $filename;
         $this->_data = $data;
     }
-    static function forge(string $filename = null, array $data = []) : View
+    static function forge(?string $filename = null, array $data = []) : View
     {
         return new static($filename, $data);
     }
