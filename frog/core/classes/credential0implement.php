@@ -75,7 +75,9 @@ class Credential0implement extends Castle
                 }
                 if ($this->_is_matched_with_previous_token === true)
                 {
-                    $this->set_cookie($this->_session_cookie_name, $session['token']);
+
+                    $this->set_cookie($this->_session_cookie_name, $session['token'], $this->_session_cookie_expiration_time, static::DEFAULT_COOKIE_PATH);
+                    static::_log_info('$this->_is_matched_with_previous_token === true');
                 }
             }
         }
@@ -139,7 +141,25 @@ class Credential0implement extends Castle
     function check() : bool
     {
         if ($this->_check_session() === true)
+        {
             return true;
+        } else {
+            try
+            {
+                static::_log_info('_check_session === false');
+                static::_log_info('$this->_received_session_token: ' . $this->_received_session_token);
+                static::_log_info('$this->_session_token: ' . $this->_session_token);
+                static::_log_info('$this->_user_id: ' . $this->_user_id);
+                static::_log_info('static::_user_agent(): ' . static::_user_agent());
+                static::_log_info('$this->_user_agent_must_be: ' . $this->_user_agent_must_be);
+                static::_log_info('static::_remote_addr(): ' . static::_remote_addr());
+                static::_log_info('$this->_ip_address_must_be: ' . $this->_ip_address_must_be);
+                static::_log_info('$this->_session_ip_mask: ' . $this->_session_ip_mask);
+                static::_log_info('reuest uri: ' . self::_request_uri());
+            } catch (Throwable $t) {
+                static::_log_info($t);
+            }
+        }
         $this->_log_credential('check session failed');
         if ($this->_check_remember_me() === true)
             return true;
@@ -192,7 +212,7 @@ class Credential0implement extends Castle
             'ip_address' => $ip_address
         ];
         $this->_store_session($params);
-        $this->_session_id = (int) $this->_database0implement->find_one_by($this->_session_table_name, 'token', $this->_session_token)['token'];
+
         return true;
     }
 
@@ -327,11 +347,6 @@ class Credential0implement extends Castle
     {
         store_cookie($cookie_name, '', time() - static::COOKIE_DELETE_SEC);
         return true;
-    }
-
-    function get_session_id()
-    {
-        return $this->_session_id;
     }
 
     function delete_session_data() : bool
